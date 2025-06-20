@@ -2,6 +2,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 import streamlit as st
 import plotly.express as px
+import numpy as np
 
 
 def from_str_to_timedelta(row):
@@ -27,9 +28,7 @@ df["duration_km_timedelta"] = df["duration_total_timedelta"] / df["distance"]
 df["duration_km_timedelta_str"] = df.apply(lambda row: datetime.strftime(datetime(2025, 1, 1)+row["duration_km_timedelta"], "%H:%M:%S"), axis=1)
 df["duration_km_sec"] = df["duration_total_sec"] / df["distance"]
 
-print(df)
-
-# Prepare the date vs. duration plot
+# Prepare the date vs. time per km plot
 delta_duration_sec = 20
 min_duration = int(df["duration_km_sec"].min())
 max_duration = int(df["duration_km_sec"].max())
@@ -40,16 +39,27 @@ time_zero = datetime(2025, 1, 1)
 for tick in duration_ticks:
     duration_labels.append((time_zero + timedelta(seconds=tick)).strftime("%H:%M:%S"))
 
-# Plot date vs. duration per km
-st.subheader("Date vs. Duration / km")
+# Plot date vs. time per km
+st.subheader("Date vs. Average time per km")
 
 figure = px.line(x=df["date"],
                  y=df["duration_km_sec"],
-                 labels={"x": "Date", "y": "Duration"},
+                 labels={"x": "Date", "y": "Average time per km"},
                  markers=True)
-figure.update_traces(customdata=df["duration_km_timedelta_str"],
-                     hovertemplate='Date: %{x} <br> Duration per km: %{customdata}') #
+figure.update_traces(marker=dict(size=10),
+                    customdata=np.stack((df["duration_km_timedelta_str"],
+                                          df["name"],
+                                          df["city"],
+                                          df["country"]), axis=-1),
+                     hovertemplate='<b>Date</b>: %{x} <br>'
+                                   '<b>Time per km</b>: %{customdata[0]} <br>'
+                                   '<b>Race</b>: %{customdata[1]} <br>'
+                                   '<b>City</b>: %{customdata[2]} <br>'
+                                   '<b>Country</b>: %{customdata[3]}') #
 figure.update_layout(yaxis = dict(tickmode = "array",
                                   tickvals = duration_ticks,
                                   ticktext = duration_labels))
+figure.update_xaxes(showspikes=True, spikecolor="darkblue")
+figure.update_yaxes(showspikes=True, spikecolor="darkblue")
+
 st.plotly_chart(figure)
