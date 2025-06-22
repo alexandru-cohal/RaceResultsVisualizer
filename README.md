@@ -11,3 +11,8 @@ The race_results.csv file shall contain the results of all the races to be inclu
 * The city shall be a string delimited by double quotes.
 * The country shall be a string delimited by double quotes.
 * The duration shall be in the format H:MM:SS, where H represents a digit of the hour, M represents a digit of the minute, S represents a digit of the second.
+
+The plots shall show the following information:
+* Plot_1 shall show the evolution of the average time per km for all the races.
+* Plot_2 shall show the number of races for each distance.
+* Plot_3 shall show the locations of all the races on a map.
