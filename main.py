@@ -50,9 +50,11 @@ figure.update_traces(marker=dict(size=10),
                     customdata=np.stack((df["duration_km_timedelta_str"],
                                           df["name"],
                                           df["city"],
-                                          df["country"]), axis=-1),
+                                          df["country"],
+                                          df["distance"]), axis=-1),
                      hovertemplate='<b>Date</b>: %{x} <br>'
                                    '<b>Time per km</b>: %{customdata[0]} <br>'
+                                   '<b>Distance</b>: %{customdata[4]} km <br>'
                                    '<b>Race</b>: %{customdata[1]} <br>'
                                    '<b>City</b>: %{customdata[2]} <br>'
                                    '<b>Country</b>: %{customdata[3]}') #
@@ -61,5 +63,17 @@ figure.update_layout(yaxis = dict(tickmode = "array",
                                   ticktext = duration_labels))
 figure.update_xaxes(showspikes=True, spikecolor="darkblue")
 figure.update_yaxes(showspikes=True, spikecolor="darkblue")
+
+st.plotly_chart(figure)
+
+# Plot the number of races w.r.t. distance
+st.subheader("Number of races w.r.t. Distance")
+
+figure = px.histogram(x=df["distance"],
+                      text_auto=True)
+figure.update_layout(xaxis_title_text="Distance (km)",
+                     yaxis_title_text="Number of races")
+figure.update_traces(hovertemplate='<b>Distance</b>: %{x} km <br>'
+                                   '<b>Number of races</b>: %{y} <br>')
 
 st.plotly_chart(figure)
