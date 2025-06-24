@@ -21,6 +21,7 @@ st.title("Race Results Visualizer")
 df = pd.read_csv("race_results.csv",
                  parse_dates=["date"],
                  date_format="%Y-%m-%d")
+df["date_str"] = df.apply(lambda row: row["date"].strftime("%b %d, %Y"), axis=1)
 df = df.rename(columns={"duration": "duration_total_timedelta"})
 df["duration_total_timedelta"] = df.apply(from_str_to_timedelta, axis=1)
 df["duration_total_sec"] = df.apply(lambda row: row["duration_total_timedelta"].seconds, axis=1)
@@ -57,7 +58,7 @@ figure.update_traces(marker=dict(size=10),
                                    '<b>Distance</b>: %{customdata[4]} km <br>'
                                    '<b>Race</b>: %{customdata[1]} <br>'
                                    '<b>City</b>: %{customdata[2]} <br>'
-                                   '<b>Country</b>: %{customdata[3]}') #
+                                   '<b>Country</b>: %{customdata[3]}')
 figure.update_layout(yaxis = dict(tickmode = "array",
                                   tickvals = duration_ticks,
                                   ticktext = duration_labels))
@@ -75,5 +76,33 @@ figure.update_layout(xaxis_title_text="Distance (km)",
                      yaxis_title_text="Number of races")
 figure.update_traces(hovertemplate='<b>Distance</b>: %{x} km <br>'
                                    '<b>Number of races</b>: %{y} <br>')
+
+st.plotly_chart(figure)
+
+# Prepare the location of the starting points plot
+avg_lat = df["lat"].mean()
+
+# Plot the locations of the starting points on a map
+st.subheader("Locations of the Starting Points")
+
+figure = px.scatter_map(lat=df["lat"], lon=df["lon"], zoom=3, height=300)
+
+figure.update_layout(map_style="open-street-map",
+                  map_zoom=6,
+                  map_center_lat = avg_lat,
+                  height=500)
+figure.update_traces(marker=dict(size=10),
+                    customdata=np.stack((df["duration_km_timedelta_str"],
+                                          df["name"],
+                                          df["city"],
+                                          df["country"],
+                                          df["distance"],
+                                          df["date_str"]), axis=-1),
+                     hovertemplate='<b>Date</b>: %{customdata[5]} <br>'
+                                   '<b>Time per km</b>: %{customdata[0]} <br>'
+                                   '<b>Distance</b>: %{customdata[4]} km <br>'
+                                   '<b>Race</b>: %{customdata[1]} <br>'
+                                   '<b>City</b>: %{customdata[2]} <br>'
+                                   '<b>Country</b>: %{customdata[3]}')
 
 st.plotly_chart(figure)
