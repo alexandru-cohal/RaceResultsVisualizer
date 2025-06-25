@@ -16,3 +16,7 @@ The plots shall show the following information:
 * Plot_1 shall show the evolution of the average time per km for all the races.
 * Plot_2 shall show the number of races for each distance.
 * Plot_3 shall show the locations of all the races on a map.
+* Plot_4 shall show the routes of all the races on a map.
+* After selecting one of the races from a dropdown list:
+  * Plot_5 shall show the route of the race on a map.
+  * Plot_6 shall show the elevation profile. 
