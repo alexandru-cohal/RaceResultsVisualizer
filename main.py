@@ -1,38 +1,39 @@
 import pandas as pd
 import streamlit as st
-from data_processing import *
+from data_processing import process_date_data, process_duration_data
 from plotting import *
-
 
 st.title("Race Results Visualizer")
 
-# Read the data from the CSV file and preprocess it
+# Read the data from the CSV file and process it
 df = pd.read_csv("race_results.csv",
                  parse_dates=["date"],
                  date_format="%Y-%m-%d")
-df = process_race_data(df)
+df = process_date_data(df)
+df = process_duration_data(df)
 
 # Plot date vs. time per km
 st.header("Date vs. Average time per km")
-figure = plot_timeperkm(df)
+figure = plot_time_per_km(df)
 st.plotly_chart(figure)
 
 # Plot the number of races w.r.t. distance
 st.header("Number of races w.r.t. Distance")
-figure = plot_numberofraces(df)
+figure = plot_number_of_races(df)
 st.plotly_chart(figure)
 
 # Plot the locations of the starting points on a map
 st.header("Locations of the Starting Points")
-figure = plot_startingpoints(df)
+figure = plot_starting_points(df)
 st.plotly_chart(figure)
 
 # Plot the route and the elevation for a chosen race
 st.header("Route and Elevation")
 race_option = st.selectbox(label="Race name",
                            options=df["name"])
-figure_route, figure_elevation = plot_route_and_elevation(df, race_option)
 st.subheader("Route points")
-st.plotly_chart(figure_route)
+figure = plot_route(df, race_option)
+st.plotly_chart(figure)
 st.subheader("Elevation")
-st.plotly_chart(figure_elevation)
+figure = plot_elevation(df, race_option)
+st.plotly_chart(figure)

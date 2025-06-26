@@ -1,14 +1,12 @@
 from datetime import datetime, timedelta
 import plotly.express as px
 import numpy as np
-from utils import parse_gpx_file
+from data_processing import get_lat_lon_elev
 
 
-GPX_FILEPATH = 'race_data/'
+def plot_time_per_km(df):
+    """ Prepare and create the plot of date vs. time per km """
 
-
-def plot_timeperkm(df):
-    # Prepare the date vs. time per km plot
     delta_duration_sec = 20
     min_duration = int(df["duration_km_sec"].min())
     max_duration = int(df["duration_km_sec"].max())
@@ -44,7 +42,9 @@ def plot_timeperkm(df):
     return figure
 
 
-def plot_numberofraces(df):
+def plot_number_of_races(df):
+    """ Prepare and create the plot of number of races """
+
     figure = px.histogram(x=df["distance"],
                           text_auto=True)
     figure.update_layout(xaxis_title_text="Distance (km)",
@@ -54,8 +54,9 @@ def plot_numberofraces(df):
     return figure
 
 
-def plot_startingpoints(df):
-    # Prepare the location of the starting points plot
+def plot_starting_points(df):
+    """ Prepare and create the plot of starting points """
+
     avg_lat = df["lat"].mean()
 
     figure = px.scatter_map(lat=df["lat"],
@@ -80,18 +81,25 @@ def plot_startingpoints(df):
     return figure
 
 
-def plot_route_and_elevation(df, race_option):
-    # Prepare the route and elevation plots
-    race_option_index = df.index[df["name"] == race_option][0]
-    lat, lon, elev = parse_gpx_file(GPX_FILEPATH + df["gpxfilename"][race_option_index])
+def plot_route(df, race_option):
+    """ Prepare and create the plot of route """
 
-    figure_route = px.scatter_map(lat=lat,
+    lat, lon, _ = get_lat_lon_elev(df, race_option)
+
+    figure = px.scatter_map(lat=lat,
                             lon=lon)
-    figure_route.update_layout(map_style="open-street-map",
+    figure.update_layout(map_style="open-street-map",
                          map_zoom=6,
                          height=500)
 
-    figure_elevation = px.scatter(y=elev)
+    return figure
 
-    return figure_route, figure_elevation
 
+def plot_elevation(df, race_option):
+    """ Prepare and create the plot of elevation """
+
+    _, _, elev = get_lat_lon_elev(df, race_option)
+
+    figure = px.scatter(y=elev)
+
+    return figure
