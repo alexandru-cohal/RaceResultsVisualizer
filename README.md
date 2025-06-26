@@ -19,4 +19,14 @@ The plots shall show the following information:
 * Plot_4 shall show the routes of all the races on a map.
 * After selecting one of the races from a dropdown list:
   * Plot_5 shall show the route of the race on a map.
-  * Plot_6 shall show the elevation profile. 
+  * Plot_6 shall show the elevation profile.
+
+## To Do:
+* Improve time per km plot (set different marker colors for different race lengths, add legend of colors).
+* Remove the columns with the starting point location (i.e. "lat" and "lon") from the .CSV file as the same information can be obtained now from the first entry of the .GPX file. Adapt the code.
+* Rethink the get_lan_lon_elev function and its usage (it is called 2 times, once for latitude and longitude and second time only for elevation).
+* Rethink parse_gpx_file function (are 3 lists the best way to keep and return the latitude, longitude and elevation data?).
+* Create a settings.json file and move the GPX_FILEPATH variable in it. Add also the .CSV file path in it. Adapt the code.
+* Improve the elevation plot (continuous line (not only discrete points), axis labels, hover display data).
+* Improve the route plot (continuous line (not only discrete points), different markers for start and end points, hover display data, zoom, alignment).
+* Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
