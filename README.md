@@ -11,6 +11,8 @@ The race_results.csv file shall contain the results of all the races to be inclu
 * The city shall be a string delimited by double quotes.
 * The country shall be a string delimited by double quotes.
 * The duration shall be in the format H:MM:SS, where H represents a digit of the hour, M represents a digit of the minute, S represents a digit of the second.
+* The latitude and longitude shall be floating point values.
+* The name of the associated .GPX file shall be a string delimited by double quotes and shall include the ".gpx" extension.
 
 The plots shall show the following information:
 * Plot_1 shall show the evolution of the average time per km for all the races.
