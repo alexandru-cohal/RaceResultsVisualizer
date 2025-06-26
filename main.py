@@ -2,7 +2,9 @@ import pandas as pd
 from datetime import datetime, timedelta
 import streamlit as st
 import plotly.express as px
+import plotly.graph_objects as go
 import numpy as np
+import gpxpy
 
 
 def from_str_to_timedelta(row):
@@ -41,7 +43,7 @@ for tick in duration_ticks:
     duration_labels.append((time_zero + timedelta(seconds=tick)).strftime("%H:%M:%S"))
 
 # Plot date vs. time per km
-st.subheader("Date vs. Average time per km")
+st.header("Date vs. Average time per km")
 
 figure = px.line(x=df["date"],
                  y=df["duration_km_sec"],
@@ -68,7 +70,7 @@ figure.update_yaxes(showspikes=True, spikecolor="darkblue")
 st.plotly_chart(figure)
 
 # Plot the number of races w.r.t. distance
-st.subheader("Number of races w.r.t. Distance")
+st.header("Number of races w.r.t. Distance")
 
 figure = px.histogram(x=df["distance"],
                       text_auto=True)
@@ -83,10 +85,10 @@ st.plotly_chart(figure)
 avg_lat = df["lat"].mean()
 
 # Plot the locations of the starting points on a map
-st.subheader("Locations of the Starting Points")
+st.header("Locations of the Starting Points")
 
-figure = px.scatter_map(lat=df["lat"], lon=df["lon"], zoom=3, height=300)
-
+figure = px.scatter_map(lat=df["lat"],
+                        lon=df["lon"])
 figure.update_layout(map_style="open-street-map",
                   map_zoom=6,
                   map_center_lat = avg_lat,
@@ -105,4 +107,47 @@ figure.update_traces(marker=dict(size=10),
                                    '<b>City</b>: %{customdata[2]} <br>'
                                    '<b>Country</b>: %{customdata[3]}')
 
+st.plotly_chart(figure)
+
+# Prepare the route and elevation plots
+
+st.header("Route and Elevation")
+
+GPX_FILEPATH = 'race_data/'
+
+
+def parse_gpx_file(filepath):
+    lat = []
+    lon = []
+    elev = []
+    gpx_file = open(filepath, 'r')
+    gpx = gpxpy.parse(gpx_file)
+    for track in gpx.tracks:
+        for segment in track.segments:
+            for point in segment.points:
+                lat.append(point.latitude)
+                lon.append(point.longitude)
+                elev.append(point.elevation)
+
+    return lat, lon, elev
+
+
+race_option = st.selectbox(label="Race name",
+                           options=df["name"])
+race_option_index = df.index[df["name"] == race_option][0]
+lat, lon, elev = parse_gpx_file(GPX_FILEPATH + df["gpxfilename"][race_option_index])
+
+st.subheader("Route points")
+
+figure = px.scatter_map(lat=lat,
+                        lon=lon)
+figure.update_layout(map_style="open-street-map",
+                  map_zoom=6,
+                  map_center_lat = avg_lat,
+                  height=500)
+st.plotly_chart(figure)
+
+st.subheader("Elevation")
+
+figure = px.scatter(y=elev)
 st.plotly_chart(figure)
