@@ -84,13 +84,17 @@ def plot_starting_points(df):
 def plot_route(df, race_option):
     """ Prepare and create the plot of route """
 
-    lat, lon, _ = get_lat_lon_elev(df, race_option)
+    lat, lon, elev = get_lat_lon_elev(df, race_option)
 
     figure = px.line_map(lat=lat,
                          lon=lon)
     figure.update_layout(map_style="open-street-map",
                          map_zoom=6,
                          height=500)
+    figure.update_traces(customdata=np.stack((lat, lon, elev), axis=-1),
+                         hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
+                                       '<b>Longitude</b>: %{customdata[1]} °E <br>'
+                                       '<b>Elevation</b>: %{customdata[2]} m <br>')
 
     return figure
 
@@ -98,8 +102,13 @@ def plot_route(df, race_option):
 def plot_elevation(df, race_option):
     """ Prepare and create the plot of elevation """
 
-    _, _, elev = get_lat_lon_elev(df, race_option)
+    lat, lon, elev = get_lat_lon_elev(df, race_option)
 
-    figure = px.line(y=elev)
+    figure = px.line(y=elev,
+                     labels={"x": "Sample", "y": "Elevation [m]"})
+    figure.update_traces(customdata=np.stack((lat, lon), axis=-1),
+                         hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
+                                       '<b>Longitude</b>: %{customdata[1]} °E <br>'
+                                       '<b>Elevation</b>: %{y} m <br>')
 
     return figure
