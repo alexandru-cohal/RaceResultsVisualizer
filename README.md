@@ -30,7 +30,7 @@ The plots shall show the following information:
 * Rethink parse_gpx_file function (are 3 lists the best way to keep and return the latitude, longitude and elevation data?).
 * Create a settings.json file and move the GPX_FILEPATH variable in it. Add also the .CSV file path in it. Adapt the code.
 * ~~Improve the elevation plot~~ (~~continuous line (not only discrete points)~~, ~~axis labels~~, ~~hover display data~~).
-* Improve the route plot (~~continuous line (not only discrete points)~~, different markers for start and end points, ~~hover display data~~, ~~zoom~~, ~~alignment~~).
+* ~~Improve the route plot~~ (~~continuous line (not only discrete points)~~, ~~different markers for start and end points~~, ~~hover display data~~, ~~zoom~~, ~~alignment~~).
 * Calculate distance and time since start based on the data from the .GPX file and show it on the route and elevation plots
 * Based on the previously calculated distance and time since start, add plot for the speed
 * Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
