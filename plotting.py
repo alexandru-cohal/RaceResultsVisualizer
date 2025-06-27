@@ -86,8 +86,8 @@ def plot_route(df, race_option):
 
     lat, lon, _ = get_lat_lon_elev(df, race_option)
 
-    figure = px.scatter_map(lat=lat,
-                            lon=lon)
+    figure = px.line_map(lat=lat,
+                         lon=lon)
     figure.update_layout(map_style="open-street-map",
                          map_zoom=6,
                          height=500)
@@ -100,6 +100,6 @@ def plot_elevation(df, race_option):
 
     _, _, elev = get_lat_lon_elev(df, race_option)
 
-    figure = px.scatter(y=elev)
+    figure = px.line(y=elev)
 
     return figure
