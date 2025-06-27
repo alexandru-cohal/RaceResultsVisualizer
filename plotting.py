@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import plotly.express as px
+import plotly.graph_objects as pg
 import numpy as np
 from data_processing import get_lat_lon_elev
 
@@ -99,6 +100,26 @@ def plot_route(df, race_option):
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
                                        '<b>Longitude</b>: %{customdata[1]} °E <br>'
                                        '<b>Elevation</b>: %{customdata[2]} m <br>')
+    start_point = pg.Scattermap(lat=[lat[0]],
+                                lon=[lon[0]],
+                                marker=dict(size=20, color="green"),
+                                name="Start Point",
+                                customdata=[elev[0]],
+                                hovertemplate='<b>Start Point</b> <br>'
+                                              '<b>Latitude</b>: %{lat} °N <br>'
+                                              '<b>Longitude</b>: %{lon} °E <br>'
+                                              '<b>Elevation</b>: %{customdata} m <br>')
+    figure.add_trace(start_point)
+    end_point = pg.Scattermap(lat=[lat[-1]],
+                              lon=[lon[-1]],
+                              marker=dict(size=20, color="red"),
+                              name="End Point",
+                              customdata=[elev[-1]],
+                              hovertemplate='<b>End Point</b> <br>'
+                                            '<b>Latitude</b>: %{lat} °N <br>'
+                                            '<b>Longitude</b>: %{lon} °E <br>'
+                                            '<b>Elevation</b>: %{customdata} m <br>')
+    figure.add_trace(end_point)
 
     return figure
 
