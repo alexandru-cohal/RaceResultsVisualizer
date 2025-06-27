@@ -85,11 +85,15 @@ def plot_route(df, race_option):
     """ Prepare and create the plot of route """
 
     lat, lon, elev = get_lat_lon_elev(df, race_option)
+    avg_lat = sum(lat) / len(lat)
+    avg_lon = sum(lon) / len(lon)
 
     figure = px.line_map(lat=lat,
                          lon=lon)
     figure.update_layout(map_style="open-street-map",
-                         map_zoom=6,
+                         map_zoom=13,
+                         map_center_lat=avg_lat,
+                         map_center_lon=avg_lon,
                          height=500)
     figure.update_traces(customdata=np.stack((lat, lon, elev), axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
