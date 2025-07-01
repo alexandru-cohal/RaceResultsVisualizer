@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+import numpy as np
 import gpxpy
 
 
@@ -44,10 +45,11 @@ def process_duration_data(df):
 
 
 def parse_gpx_file(filepath):
-    """ Parse a .GPX file and return 3 lists with latitude, longitude and elevation values, respectively """
+    """ Parse a .GPX file and return 4 lists with latitude, longitude, elevation and timestamp values, respectively """
     lat = []
     lon = []
     elev = []
+    timestamp = []
 
     with open(filepath, 'r') as gpx_file:
         gpx = gpxpy.parse(gpx_file)
@@ -57,13 +59,22 @@ def parse_gpx_file(filepath):
                     lat.append(point.latitude)
                     lon.append(point.longitude)
                     elev.append(point.elevation)
+                    timestamp.append(point.time)
 
-    return lat, lon, elev
+    return lat, lon, elev, timestamp
 
 
-def get_lat_lon_elev(df, race_option):
-    race_option_index = df.index[df["name"] == race_option][0]
+def add_route_data(df):
+    df["route_points_lat"] = None
+    df["route_points_lon"] = None
+    df["route_points_elev"] = None
+    df["route_points_timestamp"] = None
 
-    lat, lon, elev = parse_gpx_file(GPX_FILEPATH + df["gpxfilename"][race_option_index])
+    for idx_row, row in df.iterrows():
+        lat, lon, elev, timestamp = parse_gpx_file(GPX_FILEPATH + row["gpxfilename"])
+        df.at[idx_row, "route_points_lat"] = np.array(lat)
+        df.at[idx_row, "route_points_lon"] = np.array(lon)
+        df.at[idx_row, "route_points_elev"] = np.array(elev)
+        df.at[idx_row, "route_points_timestamp"] = np.array(timestamp)
 
-    return lat, lon, elev
+    return df

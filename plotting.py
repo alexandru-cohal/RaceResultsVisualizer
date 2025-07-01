@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 import plotly.express as px
 import plotly.graph_objects as pg
 import numpy as np
-from data_processing import get_lat_lon_elev
 
 
 def plot_time_per_km(df):
@@ -82,10 +81,13 @@ def plot_starting_points(df):
     return figure
 
 
-def plot_route(df, race_option):
+def plot_route(df, race_option_index):
     """ Prepare and create the plot of route """
 
-    lat, lon, elev = get_lat_lon_elev(df, race_option)
+    lat = df["route_points_lat"][race_option_index]
+    lon = df["route_points_lon"][race_option_index]
+    elev = df["route_points_elev"][race_option_index]
+
     avg_lat = sum(lat) / len(lat)
     avg_lon = sum(lon) / len(lon)
 
@@ -124,14 +126,12 @@ def plot_route(df, race_option):
     return figure
 
 
-def plot_elevation(df, race_option):
+def plot_elevation(df, race_option_index):
     """ Prepare and create the plot of elevation """
 
-    lat, lon, elev = get_lat_lon_elev(df, race_option)
-
-    figure = px.line(y=elev,
+    figure = px.line(y=df["route_points_elev"][race_option_index],
                      labels={"x": "Sample", "y": "Elevation [m]"})
-    figure.update_traces(customdata=np.stack((lat, lon), axis=-1),
+    figure.update_traces(customdata=np.stack((df["route_points_lat"], df["route_points_lon"]), axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
                                        '<b>Longitude</b>: %{customdata[1]} °E <br>'
                                        '<b>Elevation</b>: %{y} m <br>')
