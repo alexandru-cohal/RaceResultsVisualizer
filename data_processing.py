@@ -1,9 +1,7 @@
+from config import config
 from datetime import datetime, timedelta
 import numpy as np
 import gpxpy
-
-
-GPX_FILEPATH = 'race_data/'
 
 
 def from_str_to_timedelta(row):
@@ -71,7 +69,7 @@ def add_route_data(df):
     df["route_points_timestamp"] = None
 
     for idx_row, row in df.iterrows():
-        lat, lon, elev, timestamp = parse_gpx_file(GPX_FILEPATH + row["gpxfilename"])
+        lat, lon, elev, timestamp = parse_gpx_file(config["gpx_race_route_filepath"] + row["gpxfilename"])
         df.at[idx_row, "route_points_lat"] = np.array(lat)
         df.at[idx_row, "route_points_lon"] = np.array(lon)
         df.at[idx_row, "route_points_elev"] = np.array(elev)

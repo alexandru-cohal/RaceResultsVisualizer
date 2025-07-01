@@ -1,3 +1,4 @@
+from config import config
 import pandas as pd
 import streamlit as st
 from data_processing import process_date_data, process_duration_data, add_route_data
@@ -6,7 +7,7 @@ from plotting import *
 st.title("Race Results Visualizer")
 
 # Read the data from the CSV file and process it
-df = pd.read_csv("race_results.csv",
+df = pd.read_csv(config["csv_race_results_filepath"],
                  parse_dates=["date"],
                  date_format="%Y-%m-%d")
 df = process_date_data(df)
