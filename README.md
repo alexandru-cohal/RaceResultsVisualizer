@@ -25,11 +25,11 @@ The plots shall show the following information:
 
 ## To Do:
 * Improve time per km plot (set different marker colors for different race lengths, add legend of colors).
-* Remove the columns with the starting point location (i.e. "lat" and "lon") from the .CSV file as the same information can be obtained now from the first entry of the .GPX file. Adapt the code.
+* ~~Remove the columns with the starting point location (i.e. "lat" and "lon") from the .CSV file as the same information can be obtained now from the first entry of the .GPX file. Adapt the code.~~
 * ~~Rethink the get_lan_lon_elev function and its usage (it is called 2 times, once for latitude and longitude and second time only for elevation).~~
 * Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used.
 * Rethink parse_gpx_file function (are 4 lists the best way to keep and return the latitude, longitude, elevation and timestamp data?).
-* Create a settings.json file and move the GPX_FILEPATH variable in it. Add also the .CSV file path in it. Adapt the code.
+* ~~Create a settings.json file and move the GPX_FILEPATH variable in it. Add also the .CSV file path in it. Adapt the code.~~
 * ~~Improve the elevation plot~~ (~~continuous line (not only discrete points)~~, ~~axis labels~~, ~~hover display data~~).
 * ~~Improve the route plot~~ (~~continuous line (not only discrete points)~~, ~~different markers for start and end points~~, ~~hover display data~~, ~~zoom~~, ~~alignment~~).
 * Calculate distance and time since start based on the data from the .GPX file and show it on the route and elevation plots
