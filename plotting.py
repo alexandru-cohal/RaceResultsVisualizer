@@ -57,13 +57,17 @@ def plot_number_of_races(df):
 def plot_starting_points(df):
     """ Prepare and create the plot of starting points """
 
-    avg_lat = df["lat"].mean()
+    start_points_lat = df.apply(lambda row: row["route_points_lat"][0], axis=1)
+    start_points_lon = df.apply(lambda row: row["route_points_lon"][0], axis=1)
+    start_points_lat_avg = start_points_lat.mean()
+    start_points_lon_avg = start_points_lon.mean()
 
-    figure = px.scatter_map(lat=df["lat"],
-                            lon=df["lon"])
+    figure = px.scatter_map(lat=start_points_lat,
+                            lon=start_points_lon)
     figure.update_layout(map_style="open-street-map",
                          map_zoom=6,
-                         map_center_lat=avg_lat,
+                         map_center_lat=start_points_lat_avg,
+                         map_center_lon=start_points_lon_avg,
                          height=500)
     figure.update_traces(marker=dict(size=10),
                          customdata=np.stack((df["duration_km_timedelta_str"],

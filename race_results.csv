@@ -1,8 +1,8 @@
-name,distance,date,city,country,duration,lat,lon,gpxfilename
-"Cursa Moritz Sant Antoni",5,2025-01-26,"Barcelona","Spain",0:29:19,41.3773880,2.1569120,Cursa_Moritz_Sant_Antoni_5km_2025.gpx
-"XIII Cursa Benefica Malalties Minoritaries",5,2025-02-23,"Badalona","Spain",0:27:10,41.4486940,2.2520700,Cursa_Benèfica_Malalties_Minoritàries_Badalona_5km.gpx
-"Cursa de la Dona Pienda",5,2025-03-23,"Pineda de Mar","Spain",0:25:36,41.6228100,2.6763770,Cursa_de_la_Dona_Pineda_de_Mar_5_Km.gpx
-"15a Cursa Nocturna de L'Hospitalet",5,2025-04-05,"L'Hospitalet de Llobregat","Spain",0:25:40,41.3568970,2.1257310,Cursa_Nocturna_de_L_Hospitalet_5_Km.gpx
-"Cursa Montilivi Girona",5,2025-04-27,"Girona","Spain",0:28:49,41.9609440,2.8272180,Cursa_Montilivi_Girona_5_Km.gpx
-"La Cursa de RAC1 Port de Barcelona",6,2025-05-18,"Barcelona","Spain",0:30:04,41.3750380,2.1780870,Cursa_de_RAC1_Port_de_Barcelona_6Km.gpx
-"14a Cursa Popular Illa Carlemany",5,2025-06-01,"Andorra la Vella","Andorra",0:25:12,42.5091890,1.5342110,Cursa_Popular_Illa_Carlemany_Andorra_5_Km.gpx
+name,distance,date,city,country,duration,gpxfilename
+"Cursa Moritz Sant Antoni",5,2025-01-26,"Barcelona","Spain",0:29:19,Cursa_Moritz_Sant_Antoni_5km_2025.gpx
+"XIII Cursa Benefica Malalties Minoritaries",5,2025-02-23,"Badalona","Spain",0:27:10,Cursa_Benèfica_Malalties_Minoritàries_Badalona_5km.gpx
+"Cursa de la Dona Pienda",5,2025-03-23,"Pineda de Mar","Spain",0:25:36,Cursa_de_la_Dona_Pineda_de_Mar_5_Km.gpx
+"15a Cursa Nocturna de L'Hospitalet",5,2025-04-05,"L'Hospitalet de Llobregat","Spain",0:25:40,Cursa_Nocturna_de_L_Hospitalet_5_Km.gpx
+"Cursa Montilivi Girona",5,2025-04-27,"Girona","Spain",0:28:49,Cursa_Montilivi_Girona_5_Km.gpx
+"La Cursa de RAC1 Port de Barcelona",6,2025-05-18,"Barcelona","Spain",0:30:04,Cursa_de_RAC1_Port_de_Barcelona_6Km.gpx
+"14a Cursa Popular Illa Carlemany",5,2025-06-01,"Andorra la Vella","Andorra",0:25:12,Cursa_Popular_Illa_Carlemany_Andorra_5_Km.gpx
