@@ -91,6 +91,8 @@ def plot_route(df, race_option_index):
     lat = df["route_points_lat"][race_option_index]
     lon = df["route_points_lon"][race_option_index]
     elev = df["route_points_elev"][race_option_index]
+    dist_accum = df["route_points_dist_accum"][race_option_index]
+    time_accum = df["route_points_time_accum"][race_option_index]
 
     avg_lat = sum(lat) / len(lat)
     avg_lon = sum(lon) / len(lon)
@@ -102,10 +104,12 @@ def plot_route(df, race_option_index):
                          map_center_lat=avg_lat,
                          map_center_lon=avg_lon,
                          height=500)
-    figure.update_traces(customdata=np.stack((lat, lon, elev), axis=-1),
+    figure.update_traces(customdata=np.stack((lat, lon, elev, dist_accum, time_accum), axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
                                        '<b>Longitude</b>: %{customdata[1]} °E <br>'
-                                       '<b>Elevation</b>: %{customdata[2]} m <br>')
+                                       '<b>Elevation</b>: %{customdata[2]} m <br>'
+                                       '<b>Covered distance</b>: %{customdata[3]} km <br>'
+                                       '<b>Spent time</b>: %{customdata[4]} s <br>')
     start_point = pg.Scattermap(lat=[lat[0]],
                                 lon=[lon[0]],
                                 marker=dict(size=20, color="green"),
@@ -135,7 +139,9 @@ def plot_elevation(df, race_option_index):
 
     figure = px.line(y=df["route_points_elev"][race_option_index],
                      labels={"x": "Sample", "y": "Elevation [m]"})
-    figure.update_traces(customdata=np.stack((df["route_points_lat"], df["route_points_lon"]), axis=-1),
+    figure.update_traces(customdata=np.stack((df["route_points_lat"][race_option_index],
+                                              df["route_points_lon"][race_option_index]),
+                                             axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
                                        '<b>Longitude</b>: %{customdata[1]} °E <br>'
                                        '<b>Elevation</b>: %{y} m <br>')
