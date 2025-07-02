@@ -93,7 +93,6 @@ def plot_route(df, race_option_index):
     elev = df["route_points_elev"][race_option_index]
     dist_accum = df["route_points_dist_accum_km"][race_option_index]
     duration_accum = df["route_points_duration_accum_timedelta_str"][race_option_index]
-    print(len(lat), len(dist_accum), len(duration_accum))
 
     avg_lat = sum(lat) / len(lat)
     avg_lon = sum(lon) / len(lon)
