@@ -84,29 +84,33 @@ def add_route_data(df):
 def add_dist_and_time_accumulative_route_data(df):
     """ Calculate the current and cumulative distance and time of the steps from the route data """
 
-    df["route_points_dist_step"] = None
-    df["route_points_time_step"] = None
-    df["route_points_dist_accum"] = None
-    df["route_points_time_accum"] = None
+    df["route_points_dist_step_km"] = None
+    df["route_points_dist_accum_km"] = None
+    df["route_points_duration_step_sec"] = None
+    df["route_points_duration_accum_sec"] = None
+    df["route_points_duration_accum_timedelta"] = None
+    df["route_points_duration_accum_timedelta_str"] = None
 
     for idx_row, row in df.iterrows():
-        dist_step = [0]
-        time_step = [0]
+        dist_step_km = [0]
+        duration_step_sec = [0]
         for idx_point in range(1, len(row["route_points_lat"])):
-            # Point0: lat[idx - 1], lon[idx - 1], time[idx - 1]
-            # Point1: lat[idx], lon[idx], time[idx]
-            dist_current = haversine.haversine(
+            dist_step_current_km = haversine.haversine(
                 (row["route_points_lat"][idx_point - 1], row["route_points_lon"][idx_point - 1]),
                 (row["route_points_lat"][idx_point], row["route_points_lon"][idx_point]))
-            time_current = (row["route_points_timestamp"][idx_point] -
-                            row["route_points_timestamp"][idx_point - 1]).seconds
+            duration_step_current_sec = (row["route_points_timestamp"][idx_point] -
+                                         row["route_points_timestamp"][idx_point - 1]).seconds
 
-            dist_step.append(dist_current)
-            time_step.append(time_current)
+            dist_step_km.append(dist_step_current_km)
+            duration_step_sec.append(duration_step_current_sec)
 
-        df.at[idx_row, "route_points_dist_step"] = np.array(dist_step)
-        df.at[idx_row, "route_points_dist_accum"] = np.cumsum(dist_step)
-        df.at[idx_row, "route_points_time_step"] = np.array(time_step)
-        df.at[idx_row, "route_points_time_accum"] = np.cumsum(time_step)
+        df.at[idx_row, "route_points_dist_step_km"] = np.array(dist_step_km)
+        df.at[idx_row, "route_points_dist_accum_km"] = np.cumsum(dist_step_km)
+        df.at[idx_row, "route_points_duration_step_sec"] = np.array(duration_step_sec)
+        df.at[idx_row, "route_points_duration_accum_sec"] = np.cumsum(duration_step_sec)
+        df.at[idx_row, "route_points_duration_accum_timedelta"] = np.array(
+            [timedelta(seconds=elem.item()) for elem in df.at[idx_row, "route_points_duration_accum_sec"]])
+        df.at[idx_row, "route_points_duration_accum_timedelta_str"] = np.array(
+            [datetime.strftime(datetime(2025, 1, 1) + elem, "%H:%M:%S") for elem in df.at[idx_row, "route_points_duration_accum_timedelta"]])
 
     return df
