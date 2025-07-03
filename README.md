@@ -32,7 +32,9 @@ The plots shall show the following information:
 * ~~Create a settings.json file and move the GPX_FILEPATH variable in it. Add also the .CSV file path in it. Adapt the code.~~
 * ~~Improve the elevation plot~~ (~~continuous line (not only discrete points)~~, ~~axis labels~~, ~~hover display data~~).
 * ~~Improve the route plot~~ (~~continuous line (not only discrete points)~~, ~~different markers for start and end points~~, ~~hover display data~~, ~~zoom~~, ~~alignment~~).
-* ~~Calculate distance and time since start based on the data from the .GPX file and show it on the route~~ and elevation plots
-* Based on the previously calculated distance and time since start, calculate and plot the pace
+* ~~Calculate distance and time since start based on the data from the .GPX file and show it on the route and elevation plots.~~
+* ~~Based on the previously calculated distance and time since start, calculate and plot the pace~~
 * Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
 * Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
+* Check if on the X-axis of the elevation plot, the samples is the best choice.
+* Calculate and display also a percentage of the covered distance.
