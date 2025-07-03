@@ -124,11 +124,13 @@ def plot_route(df, race_option_index):
                               lon=[lon[-1]],
                               marker=dict(size=20, color="red"),
                               name="End Point",
-                              customdata=[elev[-1]],
+                              customdata=np.stack(([elev[-1]], [dist_accum[-1]], [duration_accum[-1]]), axis=-1),
                               hovertemplate='<b>End Point</b> <br>'
                                             '<b>Latitude</b>: %{lat} °N <br>'
                                             '<b>Longitude</b>: %{lon} °E <br>'
-                                            '<b>Elevation</b>: %{customdata} m <br>')
+                                            '<b>Elevation</b>: %{customdata[0]} m <br>'
+                                            '<b>Elapsed time</b>: %{customdata[2]}<br>'
+                                            '<b>Covered distance</b>: %{customdata[1]:.3f} km <br>')
     figure.add_trace(end_point)
 
     return figure
@@ -137,13 +139,20 @@ def plot_route(df, race_option_index):
 def plot_elevation(df, race_option_index):
     """ Prepare and create the plot of elevation """
 
-    figure = px.line(y=df["route_points_elev"][race_option_index],
+    lat = df["route_points_lat"][race_option_index]
+    lon = df["route_points_lon"][race_option_index]
+    elev = df["route_points_elev"][race_option_index]
+    dist_accum = df["route_points_dist_accum_km"][race_option_index]
+    duration_accum = df["route_points_duration_accum_timedelta_str"][race_option_index]
+
+    figure = px.line(y=elev,
                      labels={"x": "Sample", "y": "Elevation [m]"})
-    figure.update_traces(customdata=np.stack((df["route_points_lat"][race_option_index],
-                                              df["route_points_lon"][race_option_index]),
+    figure.update_traces(customdata=np.stack((lat, lon, dist_accum, duration_accum),
                                              axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
                                        '<b>Longitude</b>: %{customdata[1]} °E <br>'
-                                       '<b>Elevation</b>: %{y} m <br>')
+                                       '<b>Elevation</b>: %{y} m <br>'
+                                       '<b>Elapsed time</b>: %{customdata[3]}<br>'
+                                       '<b>Covered distance</b>: %{customdata[2]:.3f} km <br>')
 
     return figure
