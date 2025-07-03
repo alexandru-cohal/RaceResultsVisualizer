@@ -1,7 +1,8 @@
 from config import config
 import pandas as pd
 import streamlit as st
-from data_processing import process_date_data, process_duration_data, add_route_data, add_dist_and_time_accumulative_route_data
+from data_processing import (process_date_data, process_duration_data, add_route_data,
+                             add_dist_and_time_accumulative_route_data, add_pace_data)
 from plotting import *
 
 st.title("Race Results Visualizer")
@@ -14,6 +15,7 @@ df = process_date_data(df)
 df = process_duration_data(df)
 df = add_route_data(df)
 df = add_dist_and_time_accumulative_route_data(df)
+df = add_pace_data(df)
 
 # Plot date vs. time per km
 st.header("Date vs. Average time per km")
@@ -40,4 +42,7 @@ figure = plot_route(df, race_option_index)
 st.plotly_chart(figure)
 st.subheader("Elevation")
 figure = plot_elevation(df, race_option_index)
+st.plotly_chart(figure)
+st.subheader("Pace")
+figure = plot_pace(df, race_option_index)
 st.plotly_chart(figure)

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import numpy as np
 import gpxpy
 import haversine
+import math
 
 
 def from_str_to_timedelta(row):
@@ -112,5 +113,51 @@ def add_dist_and_time_accumulative_route_data(df):
             [timedelta(seconds=elem.item()) for elem in df.at[idx_row, "route_points_duration_accum_sec"]])
         df.at[idx_row, "route_points_duration_accum_timedelta_str"] = np.array(
             [datetime.strftime(datetime(2025, 1, 1) + elem, "%H:%M:%S") for elem in df.at[idx_row, "route_points_duration_accum_timedelta"]])
+
+    return df
+
+
+def add_pace_data(df):
+    """ Calculate the pace for each km """
+
+    df["pace_sec"] = None
+    df["pace_timedelta"] = None
+    df["pace_timedelta_str"] = None
+
+    for idx_row, row in df.iterrows():
+        dist_accum_km = row["route_points_dist_accum_km"]
+        duration_accum_sec = row["route_points_duration_accum_sec"]
+
+        pace_sec = []
+        pace_timedelta = []
+        pace_timedelta_str = []
+        pace_dist = []
+        last_km_mark = (None, None, None)  # (km_mark, distance, time)
+
+        for idx_step, step in enumerate(dist_accum_km):
+            km_current = math.modf(step)[1]
+            if km_current != last_km_mark[0]:
+                if last_km_mark[0] is not None:
+                    duration_diff = duration_accum_sec[idx_step] - last_km_mark[2]
+                    dist_diff = step - last_km_mark[1]
+                    pace_sec.append(int(duration_diff / dist_diff))
+                    pace_timedelta.append(timedelta(seconds=pace_sec[-1]))
+                    pace_timedelta_str.append(datetime.strftime(datetime(2025, 1, 1) +
+                                                                pace_timedelta[-1], "%H:%M:%S"))
+                    pace_dist.append(dist_diff)
+                last_km_mark = (km_current, step, duration_accum_sec[idx_step])
+
+        duration_diff = duration_accum_sec[-1] - last_km_mark[2]
+        dist_diff = dist_accum_km[-1] - last_km_mark[1]
+        pace_sec.append(int(duration_diff / dist_diff))
+        pace_timedelta.append(timedelta(seconds=pace_sec[-1]))
+        pace_timedelta_str.append(datetime.strftime(datetime(2025, 1, 1) +
+                                                    pace_timedelta[-1], "%H:%M:%S"))
+        pace_dist.append(dist_diff)
+
+        df.at[idx_row, "pace_sec"] = np.array(pace_sec)
+        df.at[idx_row, "pace_timedelta"] = np.array(pace_timedelta)
+        df.at[idx_row, "pace_timedelta_str"] = np.array(pace_timedelta_str)
+        df.at[idx_row, "pace_dist"] = np.array(pace_dist)
 
     return df
