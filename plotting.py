@@ -159,11 +159,13 @@ def plot_elevation(df, race_option_index):
 
 
 def plot_pace(df, race_option_index):
-    pace = df["pace_sec"][race_option_index]
+    pace_sec = df["pace_sec"][race_option_index]
+    pace_timedelta_str = df["pace_timedelta_str"][race_option_index]
+    pace_dist = df["pace_dist"][race_option_index]
 
     delta_duration_sec = 20
-    min_duration = int(pace.min())
-    max_duration = int(pace.max())
+    min_duration = int(pace_sec.min())
+    max_duration = int(pace_sec.max())
     duration_ticks = list(range(min_duration, max_duration, delta_duration_sec))
 
     duration_labels = []
@@ -171,14 +173,14 @@ def plot_pace(df, race_option_index):
     for tick in duration_ticks:
         duration_labels.append((time_zero + timedelta(seconds=tick)).strftime("%H:%M:%S"))
 
-    figure = px.line(x=range(1, len(pace)+1),
-                     y=pace,
+    figure = px.line(x=range(1, len(pace_sec)+1),
+                     y=pace_sec,
                      labels={"x": "Index of Km", "y": "Pace"},
                      markers=True)
     figure.update_traces(marker=dict(size=10),
-                         customdata=np.stack((df["pace_timedelta_str"][race_option_index], df["pace_dist"][race_option_index]), axis=-1),
+                         customdata=np.stack((pace_timedelta_str, pace_dist), axis=-1),
                          hovertemplate='<b>Pace</b>: %{customdata[0]} <br>'
-                                       '<b>Distance</b>: %{customdata[1]} <br>')
+                                       '<b>Covered distance</b>: %{customdata[1]:.3f} <br>')
     figure.update_layout(yaxis=dict(tickmode="array",
                                     tickvals=duration_ticks,
                                     ticktext=duration_labels))
