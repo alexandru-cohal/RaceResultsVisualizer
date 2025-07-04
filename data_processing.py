@@ -25,6 +25,14 @@ def process_date_data(df):
     return df
 
 
+def from_str_to_timedelta_pace(row):
+    duration = datetime.strptime(row["pace_average_official_timedelta_str"], "%H:%M:%S")
+    duration = timedelta(hours=duration.hour,
+                         minutes=duration.minute,
+                         seconds=duration.second)
+    return duration
+
+
 def process_duration_data(df):
     """ Process the data from the "duration" column """
 
@@ -40,6 +48,10 @@ def process_duration_data(df):
                                                axis=1)
 
     df["duration_km_sec"] = df["duration_total_sec"] / df["distance"]
+
+    df = df.rename(columns={"pace": "pace_average_official_timedelta_str"})
+    df["pace_average_official_timedelta"] = df.apply(from_str_to_timedelta_pace, axis=1)
+    df["pace_average_official_sec"] = df.apply(lambda row: int(row["pace_average_official_timedelta"].total_seconds()), axis=1)
 
     return df
 
@@ -123,7 +135,10 @@ def add_pace_data(df):
     df["pace_sec"] = None
     df["pace_timedelta"] = None
     df["pace_timedelta_str"] = None
-    df["pace_dist"] = None
+    df["pace_dist_km"] = None
+    df["pace_average_calc_sec"] = None
+    df["pace_average_calc_timedelta"] = None
+    df["pace_average_calc_timedelta_str"] = None
 
     for idx_row, row in df.iterrows():
         dist_accum_km = row["route_points_dist_accum_km"]
@@ -132,7 +147,7 @@ def add_pace_data(df):
         pace_sec = []
         pace_timedelta = []
         pace_timedelta_str = []
-        pace_dist = []
+        pace_dist_km = []
         last_km_mark = (None, None, None)  # (km_mark, distance, time)
 
         for idx_step, step in enumerate(dist_accum_km):
@@ -145,7 +160,7 @@ def add_pace_data(df):
                     pace_timedelta.append(timedelta(seconds=pace_sec[-1]))
                     pace_timedelta_str.append(datetime.strftime(datetime(2025, 1, 1) +
                                                                 pace_timedelta[-1], "%H:%M:%S"))
-                    pace_dist.append(dist_diff)
+                    pace_dist_km.append(dist_diff)
                 last_km_mark = (km_current, step, duration_accum_sec[idx_step])
 
         duration_diff = duration_accum_sec[-1] - last_km_mark[2]
@@ -154,11 +169,17 @@ def add_pace_data(df):
         pace_timedelta.append(timedelta(seconds=pace_sec[-1]))
         pace_timedelta_str.append(datetime.strftime(datetime(2025, 1, 1) +
                                                     pace_timedelta[-1], "%H:%M:%S"))
-        pace_dist.append(dist_diff)
+        pace_dist_km.append(dist_diff)
 
         df.at[idx_row, "pace_sec"] = np.array(pace_sec)
         df.at[idx_row, "pace_timedelta"] = np.array(pace_timedelta)
         df.at[idx_row, "pace_timedelta_str"] = np.array(pace_timedelta_str)
-        df.at[idx_row, "pace_dist"] = np.array(pace_dist)
+        df.at[idx_row, "pace_dist_km"] = np.array(pace_dist_km)
+
+        pace_average = duration_accum_sec[-1] / dist_accum_km[-1]
+        df.at[idx_row, "pace_average_calc_sec"] = int(pace_average)
+        df.at[idx_row, "pace_average_calc_timedelta"] = timedelta(seconds=int(pace_average))
+        df.at[idx_row, "pace_average_calc_timedelta_str"] = datetime.strftime(datetime(2025, 1, 1) +
+                                                                              timedelta(seconds=int(pace_average)), "%H:%M:%S")
 
     return df

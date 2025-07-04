@@ -161,7 +161,7 @@ def plot_elevation(df, race_option_index):
 def plot_pace(df, race_option_index):
     pace_sec = df["pace_sec"][race_option_index]
     pace_timedelta_str = df["pace_timedelta_str"][race_option_index]
-    pace_dist = df["pace_dist"][race_option_index]
+    pace_dist = df["pace_dist_km"][race_option_index]
 
     delta_duration_sec = 20
     min_duration = int(pace_sec.min())
@@ -180,11 +180,19 @@ def plot_pace(df, race_option_index):
     figure.update_traces(marker=dict(size=10),
                          customdata=np.stack((pace_timedelta_str, pace_dist), axis=-1),
                          hovertemplate='<b>Pace</b>: %{customdata[0]} <br>'
-                                       '<b>Covered distance</b>: %{customdata[1]:.3f} <br>')
+                                       '<b>Covered distance</b>: %{customdata[1]:.3f} km <br>')
     figure.update_layout(yaxis=dict(tickmode="array",
                                     tickvals=duration_ticks,
                                     ticktext=duration_labels))
     figure.update_xaxes(showspikes=True, spikecolor="darkblue")
     figure.update_yaxes(showspikes=True, spikecolor="darkblue")
+
+    figure.add_hline(y=df["pace_average_calc_sec"][race_option_index], line_dash="dot",
+                  annotation_text=f"<b>Average calculated pace:</b> {df["pace_average_calc_timedelta_str"][race_option_index]}",
+                  annotation_position="top right")
+    
+    figure.add_hline(y=df["pace_average_official_sec"][race_option_index], line_dash="dot",
+                  annotation_text=f"<b>Average official pace:</b> {df["pace_average_official_timedelta_str"][race_option_index]}",
+                  annotation_position="bottom right")
 
     return figure
