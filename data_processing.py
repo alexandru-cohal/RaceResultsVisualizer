@@ -123,6 +123,7 @@ def add_pace_data(df):
     df["pace_sec"] = None
     df["pace_timedelta"] = None
     df["pace_timedelta_str"] = None
+    df["pace_dist"] = None
 
     for idx_row, row in df.iterrows():
         dist_accum_km = row["route_points_dist_accum_km"]
