@@ -6,11 +6,11 @@ import haversine
 import math
 
 
-def from_str_to_timedelta(row):
+def from_str_to_timedelta(row, column_name):
     """ For a dataframe row containing the race data, convert the value from the
-    "duration_total_timedelta" column from string into timedelta """
+    column with the name given from string into timedelta """
 
-    duration = datetime.strptime(row["duration_total_timedelta"], "%H:%M:%S")
+    duration = datetime.strptime(row[column_name], "%H:%M:%S")
     duration = timedelta(hours=duration.hour,
                          minutes=duration.minute,
                          seconds=duration.second)
@@ -25,19 +25,13 @@ def process_date_data(df):
     return df
 
 
-def from_str_to_timedelta_pace(row):
-    duration = datetime.strptime(row["pace_average_official_timedelta_str"], "%H:%M:%S")
-    duration = timedelta(hours=duration.hour,
-                         minutes=duration.minute,
-                         seconds=duration.second)
-    return duration
-
-
 def process_duration_data(df):
     """ Process the data from the "duration" column """
 
     df = df.rename(columns={"duration": "duration_total_timedelta"})
-    df["duration_total_timedelta"] = df.apply(from_str_to_timedelta, axis=1)
+    df["duration_total_timedelta"] = df.apply(func=from_str_to_timedelta,
+                                              args=("duration_total_timedelta",),
+                                              axis=1)
 
     df["duration_total_sec"] = df.apply(lambda row: row["duration_total_timedelta"].seconds, axis=1)
 
@@ -50,7 +44,9 @@ def process_duration_data(df):
     df["duration_km_sec"] = df["duration_total_sec"] / df["distance"]
 
     df = df.rename(columns={"pace": "pace_average_official_timedelta_str"})
-    df["pace_average_official_timedelta"] = df.apply(from_str_to_timedelta_pace, axis=1)
+    df["pace_average_official_timedelta"] = df.apply(func=from_str_to_timedelta,
+                                                     args=("pace_average_official_timedelta_str",),
+                                                     axis=1)
     df["pace_average_official_sec"] = df.apply(lambda row: int(row["pace_average_official_timedelta"].total_seconds()), axis=1)
 
     return df
