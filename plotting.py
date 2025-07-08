@@ -92,6 +92,7 @@ def plot_route(df, race_option_index):
     lon = df["route_points_lon"][race_option_index]
     elev = df["route_points_elev"][race_option_index]
     dist_accum = df["route_points_dist_accum_km"][race_option_index]
+    dist_accum_percentage = df["route_points_dist_accum_percentage"][race_option_index]
     duration_accum = df["route_points_duration_accum_timedelta_str"][race_option_index]
 
     avg_lat = sum(lat) / len(lat)
@@ -104,33 +105,35 @@ def plot_route(df, race_option_index):
                          map_center_lat=avg_lat,
                          map_center_lon=avg_lon,
                          height=500)
-    figure.update_traces(customdata=np.stack((lat, lon, elev, dist_accum, duration_accum), axis=-1),
+    figure.update_traces(customdata=np.stack((lat, lon, elev, dist_accum, dist_accum_percentage, duration_accum), axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
                                        '<b>Longitude</b>: %{customdata[1]} °E <br>'
                                        '<b>Elevation</b>: %{customdata[2]} m <br>'
-                                       '<b>Elapsed time</b>: %{customdata[4]}<br>'
-                                       '<b>Covered distance</b>: %{customdata[3]:.3f} km <br>')
+                                       '<b>Elapsed time</b>: %{customdata[5]}<br>'
+                                       '<b>Covered distance</b>: %{customdata[3]:.3f} km (%{customdata[4]:.2f}%) <br>')
     start_point = pg.Scattermap(lat=[lat[0]],
                                 lon=[lon[0]],
                                 marker=dict(size=20, color="green"),
                                 name="Start Point",
-                                customdata=[elev[0]],
+                                customdata=np.stack(([elev[0]], [dist_accum[0]], [dist_accum_percentage[0]], [duration_accum[0]]), axis=-1),
                                 hovertemplate='<b>Start Point</b> <br>'
                                               '<b>Latitude</b>: %{lat} °N <br>'
                                               '<b>Longitude</b>: %{lon} °E <br>'
-                                              '<b>Elevation</b>: %{customdata} m <br>')
+                                              '<b>Elevation</b>: %{customdata[0]} m <br>'
+                                              '<b>Elapsed time</b>: %{customdata[3]}<br>'
+                                              '<b>Covered distance</b>: %{customdata[1]:.3f} km (%{customdata[2]:.2f}%) <br>')
     figure.add_trace(start_point)
     end_point = pg.Scattermap(lat=[lat[-1]],
                               lon=[lon[-1]],
                               marker=dict(size=20, color="red"),
                               name="End Point",
-                              customdata=np.stack(([elev[-1]], [dist_accum[-1]], [duration_accum[-1]]), axis=-1),
+                              customdata=np.stack(([elev[-1]], [dist_accum[-1]], [dist_accum_percentage[-1]], [duration_accum[-1]]), axis=-1),
                               hovertemplate='<b>End Point</b> <br>'
                                             '<b>Latitude</b>: %{lat} °N <br>'
                                             '<b>Longitude</b>: %{lon} °E <br>'
                                             '<b>Elevation</b>: %{customdata[0]} m <br>'
-                                            '<b>Elapsed time</b>: %{customdata[2]}<br>'
-                                            '<b>Covered distance</b>: %{customdata[1]:.3f} km <br>')
+                                            '<b>Elapsed time</b>: %{customdata[3]}<br>'
+                                            '<b>Covered distance</b>: %{customdata[1]:.3f} km (%{customdata[2]:.2f}%) <br>')
     figure.add_trace(end_point)
 
     return figure
@@ -143,17 +146,18 @@ def plot_elevation(df, race_option_index):
     lon = df["route_points_lon"][race_option_index]
     elev = df["route_points_elev"][race_option_index]
     dist_accum = df["route_points_dist_accum_km"][race_option_index]
+    dist_accum_percentage = df["route_points_dist_accum_percentage"][race_option_index]
     duration_accum = df["route_points_duration_accum_timedelta_str"][race_option_index]
 
     figure = px.line(x=dist_accum,y=elev,
                      labels={"x": "Covered distance [km]", "y": "Elevation [m]"})
-    figure.update_traces(customdata=np.stack((lat, lon, dist_accum, duration_accum),
+    figure.update_traces(customdata=np.stack((lat, lon, dist_accum, dist_accum_percentage, duration_accum),
                                              axis=-1),
-                         hovertemplate='<b>Covered distance</b>: %{customdata[2]:.3f} km <br>'
+                         hovertemplate='<b>Covered distance</b>: %{customdata[2]:.3f} km (%{customdata[3]:.2f}%) <br>'
                                        '<b>Elevation</b>: %{y} m <br>'
                                        '<b>Latitude</b>: %{customdata[0]} °N <br>'
                                        '<b>Longitude</b>: %{customdata[1]} °E <br>'
-                                       '<b>Elapsed time</b>: %{customdata[3]}<br>'
+                                       '<b>Elapsed time</b>: %{customdata[4]}<br>'
                         )
     figure.update_xaxes(showspikes=True, spikecolor="darkblue")
     figure.update_yaxes(showspikes=True, spikecolor="darkblue")

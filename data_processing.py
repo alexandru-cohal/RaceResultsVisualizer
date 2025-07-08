@@ -99,6 +99,7 @@ def add_dist_and_time_accumulative_route_data(df):
     df["route_points_duration_accum_sec"] = None
     df["route_points_duration_accum_timedelta"] = None
     df["route_points_duration_accum_timedelta_str"] = None
+    df["route_points_dist_accum_percentage"] = None
 
     for idx_row, row in df.iterrows():
         dist_step_km = [0]
@@ -113,14 +114,19 @@ def add_dist_and_time_accumulative_route_data(df):
             dist_step_km.append(dist_step_current_km)
             duration_step_sec.append(duration_step_current_sec)
 
+        dist_accum_km = np.cumsum(dist_step_km)
+        calculate_dist_accum_percentage = np.vectorize(lambda elem: elem * 100 / dist_accum_km[-1])
+        dist_accum_percentage = calculate_dist_accum_percentage(dist_accum_km)
+
         df.at[idx_row, "route_points_dist_step_km"] = np.array(dist_step_km)
-        df.at[idx_row, "route_points_dist_accum_km"] = np.cumsum(dist_step_km)
+        df.at[idx_row, "route_points_dist_accum_km"] = dist_accum_km
         df.at[idx_row, "route_points_duration_step_sec"] = np.array(duration_step_sec)
         df.at[idx_row, "route_points_duration_accum_sec"] = np.cumsum(duration_step_sec)
         df.at[idx_row, "route_points_duration_accum_timedelta"] = np.array(
             [timedelta(seconds=elem.item()) for elem in df.at[idx_row, "route_points_duration_accum_sec"]])
         df.at[idx_row, "route_points_duration_accum_timedelta_str"] = np.array(
             [datetime.strftime(datetime(2025, 1, 1) + elem, "%H:%M:%S") for elem in df.at[idx_row, "route_points_duration_accum_timedelta"]])
+        df.at[idx_row, "route_points_dist_accum_percentage"] = dist_accum_percentage
 
     return df
 
