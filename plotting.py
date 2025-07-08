@@ -145,15 +145,18 @@ def plot_elevation(df, race_option_index):
     dist_accum = df["route_points_dist_accum_km"][race_option_index]
     duration_accum = df["route_points_duration_accum_timedelta_str"][race_option_index]
 
-    figure = px.line(y=elev,
-                     labels={"x": "Sample", "y": "Elevation [m]"})
+    figure = px.line(x=dist_accum,y=elev,
+                     labels={"x": "Covered distance [km]", "y": "Elevation [m]"})
     figure.update_traces(customdata=np.stack((lat, lon, dist_accum, duration_accum),
                                              axis=-1),
-                         hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
-                                       '<b>Longitude</b>: %{customdata[1]} °E <br>'
+                         hovertemplate='<b>Covered distance</b>: %{customdata[2]:.3f} km <br>'
                                        '<b>Elevation</b>: %{y} m <br>'
+                                       '<b>Latitude</b>: %{customdata[0]} °N <br>'
+                                       '<b>Longitude</b>: %{customdata[1]} °E <br>'
                                        '<b>Elapsed time</b>: %{customdata[3]}<br>'
-                                       '<b>Covered distance</b>: %{customdata[2]:.3f} km <br>')
+                        )
+    figure.update_xaxes(showspikes=True, spikecolor="darkblue")
+    figure.update_yaxes(showspikes=True, spikecolor="darkblue")
 
     return figure
 
@@ -175,7 +178,7 @@ def plot_pace(df, race_option_index):
 
     figure = px.line(x=range(1, len(pace_sec)+1),
                      y=pace_sec,
-                     labels={"x": "Index of Km", "y": "Pace"},
+                     labels={"x": "Index of covered km", "y": "Pace"},
                      markers=True)
     figure.update_traces(marker=dict(size=10),
                          customdata=np.stack((pace_timedelta_str, pace_dist), axis=-1),
