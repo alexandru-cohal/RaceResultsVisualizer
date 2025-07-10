@@ -4,40 +4,49 @@ import plotly.graph_objects as pg
 import numpy as np
 
 
-def plot_time_per_km(df):
+def plot_time_per_km(df, race_distance_option):
     """ Prepare and create the plot of date vs. time per km """
 
-    delta_duration_sec = 20
-    min_duration = int(df["duration_km_sec"].min())
-    max_duration = int(df["duration_km_sec"].max())
-    duration_ticks = list(range(min_duration, max_duration, delta_duration_sec))
+    match race_distance_option:
+        case "5 & 6 km":
+            df = df.loc[df["distance"].isin([5, 6])]
+        case "10 km":
+            df = df.loc[df["distance"] == 10]
 
-    duration_labels = []
-    time_zero = datetime(2025, 1, 1)
-    for tick in duration_ticks:
-        duration_labels.append((time_zero + timedelta(seconds=tick)).strftime("%H:%M:%S"))
+    if not df.empty:
+        delta_duration_sec = 20
+        min_duration = int(df["duration_km_sec"].min())
+        max_duration = int(df["duration_km_sec"].max())
+        duration_ticks = list(range(min_duration, max_duration, delta_duration_sec))
 
-    figure = px.line(x=df["date"],
-                     y=df["duration_km_sec"],
-                     labels={"x": "Date", "y": "Average time per km"},
-                     markers=True)
-    figure.update_traces(marker=dict(size=10),
-                         customdata=np.stack((df["duration_km_timedelta_str"],
-                                              df["name"],
-                                              df["city"],
-                                              df["country"],
-                                              df["distance"]), axis=-1),
-                         hovertemplate='<b>Date</b>: %{x} <br>'
-                                       '<b>Time per km</b>: %{customdata[0]} <br>'
-                                       '<b>Distance</b>: %{customdata[4]} km <br>'
-                                       '<b>Race</b>: %{customdata[1]} <br>'
-                                       '<b>City</b>: %{customdata[2]} <br>'
-                                       '<b>Country</b>: %{customdata[3]}')
-    figure.update_layout(yaxis=dict(tickmode="array",
-                                    tickvals=duration_ticks,
-                                    ticktext=duration_labels))
-    figure.update_xaxes(showspikes=True, spikecolor="darkblue")
-    figure.update_yaxes(showspikes=True, spikecolor="darkblue")
+        duration_labels = []
+        time_zero = datetime(2025, 1, 1)
+        for tick in duration_ticks:
+            duration_labels.append((time_zero + timedelta(seconds=tick)).strftime("%H:%M:%S"))
+
+        figure = px.line(x=df["date"],
+                         y=df["duration_km_sec"],
+                         labels={"x": "Date", "y": "Average time per km"},
+                         markers=True)
+        figure.update_traces(marker=dict(size=10),
+                             customdata=np.stack((df["duration_km_timedelta_str"],
+                                                  df["name"],
+                                                  df["city"],
+                                                  df["country"],
+                                                  df["distance"]), axis=-1),
+                             hovertemplate='<b>Date</b>: %{x} <br>'
+                                           '<b>Time per km</b>: %{customdata[0]} <br>'
+                                           '<b>Distance</b>: %{customdata[4]} km <br>'
+                                           '<b>Race</b>: %{customdata[1]} <br>'
+                                           '<b>City</b>: %{customdata[2]} <br>'
+                                           '<b>Country</b>: %{customdata[3]}')
+        figure.update_layout(yaxis=dict(tickmode="array",
+                                        tickvals=duration_ticks,
+                                        ticktext=duration_labels))
+        figure.update_xaxes(showspikes=True, spikecolor="darkblue")
+        figure.update_yaxes(showspikes=True, spikecolor="darkblue")
+    else:
+        raise IndexError("No data available")
 
     return figure
 

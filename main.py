@@ -19,8 +19,14 @@ df = add_pace_data(df)
 
 # Plot date vs. time per km
 st.header("Date vs. Average time per km")
-figure = plot_time_per_km(df)
-st.plotly_chart(figure)
+race_distance_option = st.selectbox(label="Race length",
+                                    options=["All", "5 & 6 km", "10 km"])
+try:
+    figure = plot_time_per_km(df, race_distance_option)
+except IndexError:
+    st.error("No data available")
+else:
+    st.plotly_chart(figure)
 
 # Plot the number of races w.r.t. distance
 st.header("Number of races w.r.t. Distance")
