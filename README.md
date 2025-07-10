@@ -24,7 +24,8 @@ The plots shall show the following information:
   * Plot_6 shall show the elevation profile.
 
 ## To Do:
-* Improve time per km plot (set different marker colors for different race lengths, add legend of colors).
+* Improve time per km plot (set different marker colors for different race lengths, add legend of colors)
+  * Solution: Plot firstly the line and then overlap for each type of distance only the markers by using the _add_trace_ function (like it was done in the _plot_route_ function for the start and end points).
 * ~~Remove the columns with the starting point location (i.e. "lat" and "lon") from the .CSV file as the same information can be obtained now from the first entry of the .GPX file. Adapt the code.~~
 * ~~Rethink the get_lan_lon_elev function and its usage (it is called 2 times, once for latitude and longitude and second time only for elevation).~~
 * Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used.
@@ -37,6 +38,8 @@ The plots shall show the following information:
 * ~~Add to the .CSV file the average official pace.~~ ~~Calculate the average pace based on the .GPX data. Show the average official pace and the average calculated pace in the pace plot.~~
 * ~~Reduce the _from_str_to_timedelta_ and _from_str_to_timedelta_pace_ functions to a single generic one. Adapt the code.~~
 * Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
+  * Solution: Use _plotly.graph_object_ and the attributes _hoversubplots_ and _hovermode_ (see https://plotly.com/python/hover-text-and-formatting/#hover-on-subplots).
 * Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
+  * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/). 
 * ~~Check if on the X-axis of the elevation plot, the samples is the best choice.~~
 * ~~Calculate and display also a percentage of the covered distance.~~
