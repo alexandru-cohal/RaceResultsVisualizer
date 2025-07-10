@@ -17,8 +17,8 @@ df = add_route_data(df)
 df = add_dist_and_time_accumulative_route_data(df)
 df = add_pace_data(df)
 
-# Plot date vs. time per km
-st.header("Date vs. Average time per km")
+# Plot the average time per km
+st.header("Average time per km")
 race_distance_option = st.selectbox(label="Race length",
                                     options=["All", "5 & 6 km", "10 km"])
 try:
@@ -38,8 +38,8 @@ st.header("Locations of the Starting Points")
 figure = plot_starting_points(df)
 st.plotly_chart(figure)
 
-# Plot the route and the elevation for a chosen race
-st.header("Route and Elevation")
+# Plot the route, elevation and pace for a chosen race
+st.header("Route, Elevation and Pace")
 race_option = st.selectbox(label="Race name",
                            options=df["name"])
 race_option_index = df.index[df["name"] == race_option][0]
