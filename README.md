@@ -54,27 +54,11 @@
   * The configuration file shall contain the key ```gpx_race_route_filepath```.
     * The value of the key ```gpx_race_route_filepath``` shall be the path of the folder where all the .GPX files containing the logged race information are stored.
 
-## To Do:
+## To Do in the following releases:
 * Improve time per km plot (set different marker colors for different race lengths, add legend of colors)
   * Solution: Plot firstly the line and then overlap for each type of distance only the markers by using the _add_trace_ function (like it was done in the _plot_route_ function for the start and end points).
-* ~~Remove the columns with the starting point location (i.e. "lat" and "lon") from the .CSV file as the same information can be obtained now from the first entry of the .GPX file. Adapt the code.~~
-* ~~Rethink the get_lan_lon_elev function and its usage (it is called 2 times, once for latitude and longitude and second time only for elevation).~~
-* Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used.
-* ~~Rethink parse_gpx_file function (are 4 lists the best way to keep and return the latitude, longitude, elevation and timestamp data?).~~
-* ~~Create a settings.json file and move the GPX_FILEPATH variable in it. Add also the .CSV file path in it. Adapt the code.~~
-* ~~Improve the elevation plot~~ (~~continuous line (not only discrete points)~~, ~~axis labels~~, ~~hover display data~~).
-* ~~Improve the route plot~~ (~~continuous line (not only discrete points)~~, ~~different markers for start and end points~~, ~~hover display data~~, ~~zoom~~, ~~alignment~~).
-* ~~Calculate distance and time since start based on the data from the .GPX file and show it on the route and elevation plots.~~
-* ~~Based on the previously calculated distance and time since start, calculate and plot the pace~~
-* ~~Add to the .CSV file the average official pace.~~ ~~Calculate the average pace based on the .GPX data. Show the average official pace and the average calculated pace in the pace plot.~~
-* ~~Reduce the _from_str_to_timedelta_ and _from_str_to_timedelta_pace_ functions to a single generic one. Adapt the code.~~
+* Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used. Improve if needed.
 * Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
   * Solution: Use _plotly.graph_object_ and the attributes _hoversubplots_ and _hovermode_ (see https://plotly.com/python/hover-text-and-formatting/#hover-on-subplots).
 * Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
   * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/). 
-* ~~Check if on the X-axis of the elevation plot, the samples is the best choice.~~
-* ~~Calculate and display also a percentage of the covered distance.~~
-* Create requirements.txt file.
-* ~~Clean-up the README.md file~~, ~~add project description~~, ~~add installation and setup guideline~~, ~~mention dependencies (point to the requirements.txt file)~~.
-* Create development branch and keep the Jupyter Notebook file only there.
-* Create the first release in GitHub. Mention what will be included in the next release.
