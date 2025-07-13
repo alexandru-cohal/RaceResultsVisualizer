@@ -11,6 +11,10 @@
   * If needed, adjust the race results values stored in the .CSV file (currently the project is using the ```race_results.csv``` file).
   * If needed, adjust the values from the configuration file ```config.json```.
   * Start the Streamlit WebApp (```streamlit run .\main.py```).
+ 
+## Dependencies
+* The Python version used for development was 3.13.
+* All the used libraries and their versions are listed in the [requirements.txt](https://github.com/alexandru-cohal/RaceResultsVisualizer/blob/master/requirements.txt) file.
 
 ## Requirements
 * The WebApp shall use as input a .CSV file which contains the results of all the races to be included in the app.
