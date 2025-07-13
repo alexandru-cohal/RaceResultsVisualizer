@@ -1,8 +1,20 @@
 # RaceResultsVisualizer
 
+## Project Description
+* The purpose of this project is to develop a WebApp in Python for visualizing in different ways the data related to the running races in which I participated.
+
+## How to Use
+* The deployed WebApp is available here:
+* For running the WebApp locally:
+  * Clone the repository.
+  * Install the dependencies (```pip install -r requirements.txt```).
+  * If needed, adjust the race results values stored in the .CSV file (currently the project is using the ```race_results.csv``` file).
+  * If needed, adjust the values from the configuration file ```config.json```.
+  * Start the Streamlit WebApp (```streamlit run .\main.py```).
+
 ## Requirements
-* The ```race_results.csv``` file shall contain the results of all the races to be included in the app.
-  * The separator shall be the comma symbol.
+* The WebApp shall use as input a .CSV file which contains the results of all the races to be included in the app.
+  * The separator of the .CSV file shall be the comma symbol.
   * The column names shall be: "name", "distance", "date", "city", "country", "duration", "pace", "gpxfilename".
     * The column "name" shall contain the name of the race.
       * The race name shall be introduced as a string delimited by double quotes.
@@ -22,7 +34,7 @@
       * The race pace shall be introduced in the format ```HH:MM:SS```, where H represents a digit of the hour value, M represents a digit of the minute value, S represents a digit of the second value.
     * The column "gpxfilename" shall contain the name of the file containing the logged data during the race (i.e. location, elevation, timestamp).
       * The name of the file shall be introduced as a string delimited by double quotes and shall include the ".gpx" extension.
-* The plots shall show the following information:
+* The plots displayed by the WebApp shall show the following information:
   * After selecting a category of races from a dropdown list (i.e. 5 & 6 km, 10 km, all races):
     * Plot_1 shall show the evolution of the pace for all the races from the selected category.
   * Plot_2 shall show the number of races for each race distance.
@@ -31,7 +43,12 @@
   * After selecting one of the races from a dropdown list:
     * Plot_4 shall show the route of the race on a map.
     * Plot_5 shall show the elevation profile.
-    * Plot_6 shall show the pace for each kilometer of the race and the calculated and official average pace values for the whole race.  
+    * Plot_6 shall show the pace for each kilometer of the race and the calculated and official average pace values for the whole race.
+* The WebApp shall use as input a configuration file ```config.json```.
+  * The configuration file shall contain the key ```csv_race_results_filepath```.
+    * The value of the key ```csv_race_results_filepath``` shall be the path of the .CSV file containing the race results.
+  * The configuration file shall contain the key ```gpx_race_route_filepath```.
+    * The value of the key ```gpx_race_route_filepath``` shall be the path of the folder where all the .GPX files containing the logged race information are stored.
 
 ## To Do:
 * Improve time per km plot (set different marker colors for different race lengths, add legend of colors)
@@ -54,6 +71,6 @@
 * ~~Check if on the X-axis of the elevation plot, the samples is the best choice.~~
 * ~~Calculate and display also a percentage of the covered distance.~~
 * Create requirements.txt file.
-* Clean-up the README.md file, add project description, add installation and setup guideline, mention dependencies (point to the requirements.txt file).
+* ~~Clean-up the README.md file~~, ~~add project description~~, add installation and setup guideline, mention dependencies (point to the requirements.txt file).
 * Create development branch and keep the Jupyter Notebook file only there.
 * Create the first release in GitHub. Mention what will be included in the next release.
