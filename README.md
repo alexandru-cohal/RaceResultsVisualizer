@@ -4,7 +4,7 @@
 * The purpose of this project is to develop a WebApp in Python for visualizing in different ways the data related to the running races in which I participated.
 
 ## How to Use
-* The deployed WebApp is available here:
+* The deployed WebApp is available [here](https://alexandru-cohal-raceresultsvisualizer-main-duilkw.streamlit.app/).
 * For running the WebApp locally:
   * Clone the repository.
   * Install the dependencies (```pip install -r requirements.txt```).
