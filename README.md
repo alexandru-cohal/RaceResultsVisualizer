@@ -71,6 +71,6 @@
 * ~~Check if on the X-axis of the elevation plot, the samples is the best choice.~~
 * ~~Calculate and display also a percentage of the covered distance.~~
 * Create requirements.txt file.
-* ~~Clean-up the README.md file~~, ~~add project description~~, add installation and setup guideline, mention dependencies (point to the requirements.txt file).
+* ~~Clean-up the README.md file~~, ~~add project description~~, ~~add installation and setup guideline~~, ~~mention dependencies (point to the requirements.txt file)~~.
 * Create development branch and keep the Jupyter Notebook file only there.
 * Create the first release in GitHub. Mention what will be included in the next release.
