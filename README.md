@@ -3,16 +3,25 @@
 ## [Draft] Requirements
 The race_results.csv file shall contain the results of all the races to be included in the app.
 * The separator shall be the comma symbol.
-* The name shall be a string delimited by double quotes.
-  * Note: This way, the name can contain comma symbols without affecting the structure of the .csv file.
-* The distance shall be a number which can contain a fractional part.
-  * The fractional part shall be separated with a dot symbol.
-* The date shall be in the format YYYY-MM-DD, where Y represents a digit of the year, M represents a digit of the month, D represents a digit od  the day.
-* The city shall be a string delimited by double quotes.
-* The country shall be a string delimited by double quotes.
-* The duration shall be in the format H:MM:SS, where H represents a digit of the hour, M represents a digit of the minute, S represents a digit of the second.
-* The latitude and longitude shall be floating point values.
-* The name of the associated .GPX file shall be a string delimited by double quotes and shall include the ".gpx" extension.
+* The column names shall be: "name", "distance", "date", "city", "country", "duration", "pace", "gpxfilename".
+  * The column "name" shall contain the name of the race.
+    * The race name shall be introduced as a string delimited by double quotes.
+    * Note: This way, the name can contain comma symbols without affecting the structure of the .csv file.
+  * The column "distance" shall contain the official distance of the race.
+    * The race distance value shall be introduced as a floating-point number.
+    * The fractional part of the race distance value shall be separated with the dot symbol. 
+  * The column "date" shall contain the date of the race.
+    * The race date value shall be introduced in the format YYYY-MM-DD, where Y represents a digit of the year value, M represents a digit of the month value, D represents a digit of the day value.
+  * The column "city" shall contain the name of the city where the race took place.
+    * The race city name shall be introduced as a string delimited by double quotes.
+  * The column "country" shall contain country where the race took place.
+    * The race country name shall be introduced as a string delimited by double quotes.
+  * The column "duration" shall contain the official duration needed to finish the race (i.e. the duration between the initial and final moments where the barrier containing the sensors for reading the chips for identifying the participants are crossed).
+    * The race duration value shall be introduced in the format H:MM:SS, where H represents a digit of the hour value, M represents a digit of the minute value, S represents a digit of the second value.
+  * The column "pace" shall contain the official pace of the race (i.e. average time needed to cover one kilometer).
+    * The race pace shall be introduced in the format HH:MM:SS, where H represents a digit of the hour value, M represents a digit of the minute value, S represents a digit of the second value.
+  * The column "gpxfilename" shall contain the name of the file containing the logged data during the race (i.e. location, elevation, timestamp).
+    * The name of the file shall be introduced as a string delimited by double quotes and shall include the ".gpx" extension.
 
 The plots shall show the following information:
 * Plot_1 shall show the evolution of the average time per km for all the races.
