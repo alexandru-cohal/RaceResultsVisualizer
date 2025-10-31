@@ -61,4 +61,10 @@
 * Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
   * Solution: Use _plotly.graph_object_ and the attributes _hoversubplots_ and _hovermode_ (see https://plotly.com/python/hover-text-and-formatting/#hover-on-subplots).
 * Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
-  * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/). 
+  * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/).
+* Change the categories for the time per km plot. Now the 10 km category doesn't include the 12 km race. Also, the categories shouldn't be strict (e.g. the category of 5 & 6 km shouldn't include only 5 km and 6 km races but everything in between).
+* Now the time per km plot for 10 km category has only one point but the values from the X axis loog strange (i.e. time also, not only date). Check and fix this.
+* The location of the starting points map plot is not including all the races. Check and fix the way how the boundaries are calculated.
+* The route map plot for the Madrid race doesn't include the whole route. Check and fix the way how the boundaries are calculated.
+* The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
+* For the number of races plot, the labels from the X axis are not aligned with the plotted columns. Check why and fix this.
