@@ -8,16 +8,20 @@ def plot_time_per_km(df, race_distance_option):
     """ Prepare and create the plot of date vs. time per km """
 
     match race_distance_option:
-        case "5 & 6 km":
-            df = df.loc[df["distance"].isin([5, 6])]
-        case "10 km":
-            df = df.loc[df["distance"] == 10]
+        case "5 - 6 km":
+            df = df.loc[df["distance"].between(5, 6)]
+        case "10 - 12 km":
+            df = df.loc[df["distance"].between(10, 12)]
 
     if not df.empty:
         delta_duration_sec = 20
         min_duration = int(df["duration_km_sec"].min())
         max_duration = int(df["duration_km_sec"].max())
-        duration_ticks = list(range(min_duration, max_duration, delta_duration_sec))
+        # Generate the duration ticks between the minimum and the maximum durations with a specific delta.
+        # Add one more tick before the minimum and one more tick after the maximum for creating a padding area.
+        duration_ticks = list(range(min_duration - delta_duration_sec,
+                                    max_duration + delta_duration_sec + 1,
+                                    delta_duration_sec))
 
         duration_labels = []
         time_zero = datetime(2025, 1, 1)
@@ -43,8 +47,19 @@ def plot_time_per_km(df, race_distance_option):
         figure.update_layout(yaxis=dict(tickmode="array",
                                         tickvals=duration_ticks,
                                         ticktext=duration_labels))
-        figure.update_xaxes(showspikes=True, spikecolor="darkblue")
-        figure.update_yaxes(showspikes=True, spikecolor="darkblue")
+        # For the x axis range subtract 1 week from the minimum date and add 1 week to the maximum date
+        # in order to create a left and right padding and to not have hours displayed when only one point is present.
+        figure.update_xaxes(showspikes=True,
+                            spikecolor="darkblue",
+                            range=[df["date"].min() - timedelta(weeks=1),
+                                   df["date"].max() + timedelta(weeks=1)])
+        # For the y axis rance subtract 1 second from the minimum duration and add 1 second to the maximum duration
+        # in order to display on the plot the horizontal grid lines corresponding to the previously added ticks
+        # for the padding area.
+        figure.update_yaxes(showspikes=True,
+                            spikecolor="darkblue",
+                            range=[min(duration_ticks) - 1,
+                                   max(duration_ticks) + 1])
     else:
         raise IndexError("No data available")
 

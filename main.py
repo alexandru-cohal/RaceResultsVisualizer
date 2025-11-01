@@ -20,7 +20,7 @@ df = add_pace_data(df)
 # Plot the average time per km
 st.header("Average time per km")
 race_distance_option = st.selectbox(label="Race length",
-                                    options=["All", "5 & 6 km", "10 km"])
+                                    options=["All", "5 - 6 km", "10 - 12 km"])
 try:
     figure = plot_time_per_km(df, race_distance_option)
 except IndexError:
