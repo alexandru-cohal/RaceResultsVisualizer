@@ -65,7 +65,8 @@
 * ~~Change the categories for the time per km plot. Now the 10 km category doesn't include the 12 km race. Also, the categories shouldn't be strict (e.g. the category of 5 & 6 km shouldn't include only 5 km and 6 km races but everything in between).~~
 * ~~Now the time per km plot for 10 km category has only one point but the values from the X axis look strange (i.e. the time is also displayed, not only dates / months). Check and fix this.~~
 * ~~The time per km plot doesn't have ticks nor grid lines above and below all the points. This would be useful for visually framing all the points.~~
-* The location of the starting points map plot is not including all the races. Check and fix the way how the boundaries are calculated.
+* ~~The location of the starting points map plot is not including all the races. Check and fix the way how the boundaries are calculated.~~
+* ~~As the location of the starting points map plot has to be now pretty zoomed out in order to display all the points, add 2 options for this plot: General - the map will be center and zoomed in order for all the points to be visible, Barcelona - the map will be center and zoomed in order for the points of the races from Barcelona (and Badalona) to be visible, as these are pretty clustered together.~~
 * The route map plot for the Madrid race doesn't include the whole route. Check and fix the way how the boundaries are calculated.
 * The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
-* For the number of races plot, the labels from the X axis are not aligned with the plotted columns. Check why and fix this.
+* ~~For the number of races plot, the labels from the X axis are not aligned with the plotted columns. Check why and fix this.~~
