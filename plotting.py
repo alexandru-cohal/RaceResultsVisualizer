@@ -84,15 +84,15 @@ def plot_starting_points(df):
 
     start_points_lat = df.apply(lambda row: row["route_points_lat"][0], axis=1)
     start_points_lon = df.apply(lambda row: row["route_points_lon"][0], axis=1)
-    start_points_lat_avg = start_points_lat.mean()
-    start_points_lon_avg = start_points_lon.mean()
+    start_points_lat_middle = (start_points_lat.min() + start_points_lat.max()) / 2
+    start_points_lon_middle = (start_points_lon.min() + start_points_lon.max()) / 2
 
     figure = px.scatter_map(lat=start_points_lat,
                             lon=start_points_lon)
     figure.update_layout(map_style="open-street-map",
-                         map_zoom=6,
-                         map_center_lat=start_points_lat_avg,
-                         map_center_lon=start_points_lon_avg,
+                         map_zoom=3.5,
+                         map_center={"lat": start_points_lat_middle,
+                                     "lon": start_points_lon_middle},
                          height=500)
     figure.update_traces(marker=dict(size=10),
                          customdata=np.stack((df["duration_km_timedelta_str"],
