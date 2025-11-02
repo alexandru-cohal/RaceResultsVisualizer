@@ -70,7 +70,8 @@ def plot_number_of_races(df):
     """ Prepare and create the plot of number of races """
 
     figure = px.histogram(x=df["distance"],
-                          text_auto=True)
+                          text_auto=True,
+                          nbins=10)
     figure.update_layout(xaxis_title_text="Distance (km)",
                          yaxis_title_text="Number of races")
     figure.update_traces(hovertemplate='<b>Distance</b>: %{x} km <br>'
