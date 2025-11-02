@@ -79,18 +79,26 @@ def plot_number_of_races(df):
     return figure
 
 
-def plot_starting_points(df):
+def plot_starting_points(df, starting_points_location_option):
     """ Prepare and create the plot of starting points """
 
     start_points_lat = df.apply(lambda row: row["route_points_lat"][0], axis=1)
     start_points_lon = df.apply(lambda row: row["route_points_lon"][0], axis=1)
-    start_points_lat_middle = (start_points_lat.min() + start_points_lat.max()) / 2
-    start_points_lon_middle = (start_points_lon.min() + start_points_lon.max()) / 2
+
+    match starting_points_location_option:
+        case "General":
+            start_points_lat_middle = (start_points_lat.min() + start_points_lat.max()) / 2
+            start_points_lon_middle = (start_points_lon.min() + start_points_lon.max()) / 2
+            map_zoom = 3.5
+        case "Barcelona":
+            start_points_lat_middle = 41.3874
+            start_points_lon_middle = 2.1686
+            map_zoom = 10.5
 
     figure = px.scatter_map(lat=start_points_lat,
                             lon=start_points_lon)
     figure.update_layout(map_style="open-street-map",
-                         map_zoom=3.5,
+                         map_zoom=map_zoom,
                          map_center={"lat": start_points_lat_middle,
                                      "lon": start_points_lon_middle},
                          height=500)

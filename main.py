@@ -35,7 +35,9 @@ st.plotly_chart(figure)
 
 # Plot the locations of the starting points on a map
 st.header("Locations of the Starting Points")
-figure = plot_starting_points(df)
+starting_points_location_option = st.selectbox(label="Area",
+                                               options=["General", "Barcelona"])
+figure = plot_starting_points(df, starting_points_location_option)
 st.plotly_chart(figure)
 
 # Plot the route, elevation and pace for a chosen race
