@@ -70,3 +70,5 @@
 * The route map plot for the Madrid race doesn't include the whole route. Check and fix the way how the boundaries are calculated.
 * The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
 * ~~For the number of races plot, the labels from the X axis are not aligned with the plotted columns. Check why and fix this.~~
+* For the Barcelona metro race, there is a .GPX file available but almost all the GPS points are the same (because the race was underground). So from this file only the start and stop points are useful (more or less). The route map and the elevation plot don't have any valuable information, so there should be a switch in the race_results.csv file to disable these plots or to signal that the .GPX file is incomplete in such cases. In this case, use the official values for the duration and pace only. Possibly add a note specifying this.
+* For the Barcelona metro race, the pace plot crashes. Check why and fix it.
