@@ -46,11 +46,21 @@ race_option = st.selectbox(label="Race name",
                            options=df["name"])
 race_option_index = df.index[df["name"] == race_option][0]
 st.subheader("Route points")
-figure = plot_route(df, race_option_index)
-st.plotly_chart(figure)
+print(df["validroutepoints"][race_option_index])
+if df["validroutepoints"][race_option_index] == True:
+    figure = plot_route(df, race_option_index)
+    st.plotly_chart(figure)
+else:
+    st.error("No route points available")
 st.subheader("Elevation")
-figure = plot_elevation(df, race_option_index)
-st.plotly_chart(figure)
+if df["validroutepoints"][race_option_index] == True:
+    figure = plot_elevation(df, race_option_index)
+    st.plotly_chart(figure)
+else:
+    st.error("No route points available")
 st.subheader("Pace")
-figure = plot_pace(df, race_option_index)
+if df["validroutepoints"][race_option_index] == True:
+    figure = plot_pace(df, race_option_index)
+else:
+    figure = plot_pace_only_official(df, race_option_index)
 st.plotly_chart(figure)

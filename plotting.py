@@ -47,13 +47,13 @@ def plot_time_per_km(df, race_distance_option):
         figure.update_layout(yaxis=dict(tickmode="array",
                                         tickvals=duration_ticks,
                                         ticktext=duration_labels))
-        # For the x axis range subtract 1 week from the minimum date and add 1 week to the maximum date
+        # For the x-axis range subtract 1 week from the minimum date and add 1 week to the maximum date
         # in order to create a left and right padding and to not have hours displayed when only one point is present.
         figure.update_xaxes(showspikes=True,
                             spikecolor="darkblue",
                             range=[df["date"].min() - timedelta(weeks=1),
                                    df["date"].max() + timedelta(weeks=1)])
-        # For the y axis rance subtract 1 second from the minimum duration and add 1 second to the maximum duration
+        # For the y-axis range subtract 1 second from the minimum duration and add 1 second to the maximum duration
         # in order to display on the plot the horizontal grid lines corresponding to the previously added ticks
         # for the padding area.
         figure.update_yaxes(showspikes=True,
@@ -242,5 +242,37 @@ def plot_pace(df, race_option_index):
     figure.add_hline(y=df["pace_average_official_sec"][race_option_index], line_dash="dot",
                   annotation_text=f"<b>Average official pace:</b> {df["pace_average_official_timedelta_str"][race_option_index]}",
                   annotation_position="bottom right")
+
+    return figure
+
+
+def plot_pace_only_official(df, race_option_index):
+    figure = px.line()
+
+    # Add one more tick before the official pace and one more tick for creating a padding area.
+    delta_pace_sec = 20
+    pace_ticks = [int(df["pace_average_official_sec"][race_option_index]) - delta_pace_sec,
+                  int(df["pace_average_official_sec"][race_option_index]),
+                  int(df["pace_average_official_sec"][race_option_index]) + delta_pace_sec]
+    pace_labels = []
+    time_zero = datetime(2025, 1, 1)
+    for tick in pace_ticks:
+        pace_labels.append((time_zero + timedelta(seconds=tick)).strftime("%H:%M:%S"))
+
+    # For the y-axis range subtract 1 second from the minimum pace and add 1 second to the maximum pace
+    # in order to display on the plot the horizontal grid lines corresponding to the previously added ticks
+    # for the padding area.
+    figure.update_yaxes(range=[min(pace_ticks) - 1,
+                               max(pace_ticks) + 1])
+    figure.update_layout(yaxis=dict(tickmode="array",
+                                    tickvals=pace_ticks,
+                                    ticktext=pace_labels))
+    # For the x-axis range use 0 and the race distance. To the right limit add 1 kilometer in order to display
+    # on the plot the point corresponding to the race distance.
+    figure.update_xaxes(range=[0,
+                               df["distance"][race_option_index] + 1])
+    figure.add_hline(y=df["pace_average_official_sec"][race_option_index], line_dash="dot",
+                     annotation_text=f"<b>Average official pace:</b> {df["pace_average_official_timedelta_str"][race_option_index]}",
+                     annotation_position="bottom right")
 
     return figure

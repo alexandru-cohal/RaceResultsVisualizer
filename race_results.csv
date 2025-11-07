@@ -1,12 +1,12 @@
-name,distance,date,city,country,duration,pace,gpxfilename
-"Cursa Moritz Sant Antoni",5,2025-01-26,"Barcelona","Spain",0:29:19,00:05:52,Cursa_Moritz_Sant_Antoni_5km_2025.gpx
-"XIII Cursa Benefica Malalties Minoritaries",5,2025-02-23,"Badalona","Spain",00:27:10,0:05:26,Cursa_Benèfica_Malalties_Minoritàries_Badalona_5km.gpx
-"Cursa de la Dona Pienda",5,2025-03-23,"Pineda de Mar","Spain",0:25:36,00:05:08,Cursa_de_la_Dona_Pineda_de_Mar_5_Km.gpx
-"15a Cursa Nocturna de L'Hospitalet",5,2025-04-05,"L'Hospitalet de Llobregat","Spain",0:25:40,00:05:08,Cursa_Nocturna_de_L_Hospitalet_5_Km.gpx
-"Cursa Montilivi Girona",5,2025-04-27,"Girona","Spain",0:28:49,0:05:46,Cursa_Montilivi_Girona_5_Km.gpx
-"La Cursa de RAC1 Port de Barcelona",6,2025-05-18,"Barcelona","Spain",0:30:04,00:05:01,Cursa_de_RAC1_Port_de_Barcelona_6Km.gpx
-"14a Cursa Popular Illa Carlemany",5,2025-06-01,"Andorra la Vella","Andorra",0:25:12,00:05:03,Cursa_Popular_Illa_Carlemany_Andorra_5_Km.gpx
-"45a Cursa Popular Ciutat de Badalona - La Cursa del Dimoni",5,2025-06-28,"Badalona","Spain",0:23:40,00:04:44,La_Cursa_Del_Dimoni_Badalona_5Km.gpx
-"100 Bruggen Loop",12,2025-09-28,"Leiden","Netherlands",1:10:55,00:06:03,100_Bruggen_Loop_Leiden_Netherlands_12Km.gpx
-"Carrera Solidaria Ruta 091",10,2025-10-19,"Madrid","Spain",0:51:06,00:05:20,Carrera_Ruta_091_Madrid_10Km.gpx
-"Cursa Nocturna del Centenari de Metro",5,2025-11-05,"Barcelona","Spain",0:25:06,0:05:02,Cursa_Nocturna_del_Centenari_de_Metro_5_Km.gpx
+name,distance,date,city,country,duration,pace,gpxfilename,validroutepoints
+"Cursa Moritz Sant Antoni",5,2025-01-26,"Barcelona","Spain",0:29:19,00:05:52,Cursa_Moritz_Sant_Antoni_5km_2025.gpx,true
+"XIII Cursa Benefica Malalties Minoritaries",5,2025-02-23,"Badalona","Spain",00:27:10,0:05:26,Cursa_Benèfica_Malalties_Minoritàries_Badalona_5km.gpx,true
+"Cursa de la Dona Pienda",5,2025-03-23,"Pineda de Mar","Spain",0:25:36,00:05:08,Cursa_de_la_Dona_Pineda_de_Mar_5_Km.gpx,true
+"15a Cursa Nocturna de L'Hospitalet",5,2025-04-05,"L'Hospitalet de Llobregat","Spain",0:25:40,00:05:08,Cursa_Nocturna_de_L_Hospitalet_5_Km.gpx,true
+"Cursa Montilivi Girona",5,2025-04-27,"Girona","Spain",0:28:49,0:05:46,Cursa_Montilivi_Girona_5_Km.gpx,true
+"La Cursa de RAC1 Port de Barcelona",6,2025-05-18,"Barcelona","Spain",0:30:04,00:05:01,Cursa_de_RAC1_Port_de_Barcelona_6Km.gpx,true
+"14a Cursa Popular Illa Carlemany",5,2025-06-01,"Andorra la Vella","Andorra",0:25:12,00:05:03,Cursa_Popular_Illa_Carlemany_Andorra_5_Km.gpx,true
+"45a Cursa Popular Ciutat de Badalona - La Cursa del Dimoni",5,2025-06-28,"Badalona","Spain",0:23:40,00:04:44,La_Cursa_Del_Dimoni_Badalona_5Km.gpx,true
+"100 Bruggen Loop",12,2025-09-28,"Leiden","Netherlands",1:10:55,00:06:03,100_Bruggen_Loop_Leiden_Netherlands_12Km.gpx,true
+"Carrera Solidaria Ruta 091",10,2025-10-19,"Madrid","Spain",0:51:06,00:05:20,Carrera_Ruta_091_Madrid_10Km.gpx,true
+"Cursa Nocturna del Centenari de Metro",5,2025-11-05,"Barcelona","Spain",0:25:06,0:05:02,Cursa_Nocturna_del_Centenari_de_Metro_5_Km.gpx,false
