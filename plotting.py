@@ -128,15 +128,23 @@ def plot_route(df, race_option_index):
     dist_accum_percentage = df["route_points_dist_accum_percentage"][race_option_index]
     duration_accum = df["route_points_duration_accum_timedelta_str"][race_option_index]
 
-    avg_lat = sum(lat) / len(lat)
-    avg_lon = sum(lon) / len(lon)
+    lat_center = (lat.min() + lat.max()) / 2
+    lon_center = (lon.min() + lon.max()) / 2
+
+    # Choose the map zoom level using a threshold for the maximum range in latitude or longitude
+    lat_range = lat.max() - lat.min()
+    lon_range = lon.max() - lon.min()
+    if max(lat_range, lon_range) <= 0.035:
+        zoom_level = 13
+    else:
+        zoom_level = 12
 
     figure = px.line_map(lat=lat,
                          lon=lon)
     figure.update_layout(map_style="open-street-map",
-                         map_zoom=13,
-                         map_center_lat=avg_lat,
-                         map_center_lon=avg_lon,
+                         map_zoom=zoom_level,
+                         map_center_lat=lat_center,
+                         map_center_lon=lon_center,
                          height=500)
     figure.update_traces(customdata=np.stack((lat, lon, elev, dist_accum, dist_accum_percentage, duration_accum), axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
