@@ -39,8 +39,8 @@ def plot_time_per_km(df, race_distance_option):
                                                   df["country"],
                                                   df["distance"]), axis=-1),
                              hovertemplate='<b>Date</b>: %{x} <br>'
-                                           '<b>Time per km</b>: %{customdata[0]} <br>'
-                                           '<b>Distance</b>: %{customdata[4]} km <br>'
+                                           '<b>Pace (official)</b>: %{customdata[0]} per km <br>'
+                                           '<b>Distance (official)</b>: %{customdata[4]} km <br>'
                                            '<b>Race</b>: %{customdata[1]} <br>'
                                            '<b>City</b>: %{customdata[2]} <br>'
                                            '<b>Country</b>: %{customdata[3]}')
@@ -72,9 +72,9 @@ def plot_number_of_races(df):
     figure = px.histogram(x=df["distance"],
                           text_auto=True,
                           nbins=10)
-    figure.update_layout(xaxis_title_text="Distance (km)",
+    figure.update_layout(xaxis_title_text="Distance (official) (km)",
                          yaxis_title_text="Number of races")
-    figure.update_traces(hovertemplate='<b>Distance</b>: %{x} km <br>'
+    figure.update_traces(hovertemplate='<b>Distance (official)</b>: %{x} km <br>'
                                        '<b>Number of races</b>: %{y} <br>')
     return figure
 
@@ -110,8 +110,8 @@ def plot_starting_points(df, starting_points_location_option):
                                               df["distance"],
                                               df["date_str"]), axis=-1),
                          hovertemplate='<b>Date</b>: %{customdata[5]} <br>'
-                                       '<b>Time per km</b>: %{customdata[0]} <br>'
-                                       '<b>Distance</b>: %{customdata[4]} km <br>'
+                                       '<b>Pace (official)</b>: %{customdata[0]} per km <br>'
+                                       '<b>Distance (official)</b>: %{customdata[4]} km <br>'
                                        '<b>Race</b>: %{customdata[1]} <br>'
                                        '<b>City</b>: %{customdata[2]} <br>'
                                        '<b>Country</b>: %{customdata[3]}')
