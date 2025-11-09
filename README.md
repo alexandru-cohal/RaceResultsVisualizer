@@ -73,3 +73,5 @@
 * ~~For the Barcelona metro race, there is a .GPX file available but almost all the GPS points are the same (because the race was underground). So from this file only the start and stop points are useful (more or less). The route map and the elevation plot don't have any valuable information, so there should be a switch in the race_results.csv file to disable these plots or to signal that the .GPX file is incomplete in such cases. In this case, use the official values for the duration and pace only. Possibly add a note specifying this.~~
 * ~~For the Barcelona metro race, the pace plot crashes. Check why and fix it.~~
 * ~~Modify the labels from "Time per km" to "Pace (official): xx:yy:zz per km)" and from "Distance" to "Distance (official)".~~
+* The route map plot for the Bombers Barcelona race doesn't include the whole route. Check again and fix the way how the zoom level is calculated.
+* The plot of numbers of race w.r.t. distance would be nice to include also the overall total number of races.
