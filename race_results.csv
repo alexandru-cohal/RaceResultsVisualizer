@@ -11,3 +11,4 @@ name,distance,date,city,country,duration,pace,gpxfilename,validroutepoints
 "Carrera Solidaria Ruta 091",10,2025-10-19,"Madrid","Spain",0:51:06,00:05:20,Carrera_Ruta_091_Madrid_10Km.gpx,true
 "Cursa Nocturna del Centenari de Metro",5,2025-11-05,"Barcelona","Spain",0:25:06,0:05:02,Cursa_Nocturna_del_Centenari_de_Metro_5_Km.gpx,false
 "Cursa Bombers Barcelona",10,2025-11-09,"Barcelona","Spain",0:54:42,0:05:29,Cursa_Bombers_Barcelona_10_Km.gpx,true
+"Cursa Allianz Jean Bouin",10,2025-11-30,"Barcelona","Spain",0:52:05,0:05:13,Cursa_Allianz_Jean_Bouin_10_Km.gpx,true
