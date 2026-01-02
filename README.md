@@ -55,12 +55,12 @@
     * The value of the key ```gpx_race_route_filepath``` shall be the path of the folder where all the .GPX files containing the logged race information are stored.
 
 ## To Do in the following releases:
-* Improve time per km plot (set different marker colors for different race lengths, add legend of colors)
+* **[1.2.0]** Improve time per km plot (set different marker colors for different race lengths, add legend of colors)
   * Solution: Plot firstly the line and then overlap for each type of distance only the markers by using the _add_trace_ function (like it was done in the _plot_route_ function for the start and end points).
-* Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used. Improve if needed.
-* Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
+* **[1.2.0]** Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used. Improve if needed.
+* **[1.2.0]** Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
   * Solution: Use _plotly.graph_object_ and the attributes _hoversubplots_ and _hovermode_ (see https://plotly.com/python/hover-text-and-formatting/#hover-on-subplots).
-* Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
+* **[1.2.0]** Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
   * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/).
 * ~~Change the categories for the time per km plot. Now the 10 km category doesn't include the 12 km race. Also, the categories shouldn't be strict (e.g. the category of 5 & 6 km shouldn't include only 5 km and 6 km races but everything in between).~~
 * ~~Now the time per km plot for 10 km category has only one point but the values from the X axis look strange (i.e. the time is also displayed, not only dates / months). Check and fix this.~~
@@ -68,11 +68,13 @@
 * ~~The location of the starting points map plot is not including all the races. Check and fix the way how the boundaries are calculated.~~
 * ~~As the location of the starting points map plot has to be now pretty zoomed out in order to display all the points, add 2 options for this plot: General - the map will be center and zoomed in order for all the points to be visible, Barcelona - the map will be center and zoomed in order for the points of the races from Barcelona (and Badalona) to be visible, as these are pretty clustered together.~~
 * ~~The route map plot for the Madrid race doesn't include the whole route. Check and fix the way how the boundaries are calculated.~~
-* The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
+* **[1.2.0]** The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
 * ~~For the number of races plot, the labels from the X axis are not aligned with the plotted columns. Check why and fix this.~~
 * ~~For the Barcelona metro race, there is a .GPX file available but almost all the GPS points are the same (because the race was underground). So from this file only the start and stop points are useful (more or less). The route map and the elevation plot don't have any valuable information, so there should be a switch in the race_results.csv file to disable these plots or to signal that the .GPX file is incomplete in such cases. In this case, use the official values for the duration and pace only. Possibly add a note specifying this.~~
 * ~~For the Barcelona metro race, the pace plot crashes. Check why and fix it.~~
 * ~~Modify the labels from "Time per km" to "Pace (official): xx:yy:zz per km)" and from "Distance" to "Distance (official)".~~
-* The route map plot for the Bombers Barcelona and Cursa dels Nassos races doesn't include the whole route. For the Jean Bouin race the route is too much zoomed out. Check again and fix the way how the zoom level is calculated.
-* The plot of numbers of race w.r.t. distance would be nice to include also the overall total number of races.
-* The average time per km plot does not include on the horizontal axis the left side and right side time limits. Check why and fix this.
+* **[1.1.0]** The route map plot for the Bombers Barcelona and Cursa dels Nassos races doesn't include the whole route. For the Jean Bouin race the route is too much zoomed out. Check again and fix the way how the zoom level is calculated.
+* **[1.1.0]** The plot of numbers of race w.r.t. distance would be nice to include also the overall total number of races.
+* **[1.1.0]** The average time per km plot does not include on the horizontal axis the left side and right side time limits. 
+* **[1.2.0]** For each race, add in the .CSV file the possibility to add a note (for mentioning some ideas relevant for that race) which will also be displayed.
+* **[1.2.0]** Add separate functions in a separate .py file for filtering the data (depending on the choices from the dropdown menus).
