@@ -55,8 +55,8 @@ def plot_time_per_km(df, race_distance_option):
         # in order to create a left and right padding and to not have hours displayed when only one point is present.
         figure.update_xaxes(showspikes=True,
                             spikecolor="darkblue",
-                            range=[df["date"].min() - timedelta(weeks=1),
-                                   df["date"].max() + timedelta(weeks=1)])
+                            range=[df["date"].min() - timedelta(weeks=4),
+                                   df["date"].max() + timedelta(weeks=4)])
         # For the y-axis range subtract 1 second from the minimum duration and add 1 second to the maximum duration
         # in order to display on the plot the horizontal grid lines corresponding to the previously added ticks
         # for the padding area.
