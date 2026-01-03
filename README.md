@@ -75,6 +75,7 @@
 * ~~Modify the labels from "Time per km" to "Pace (official): xx:yy:zz per km)" and from "Distance" to "Distance (official)".~~
 * ~~**[1.1.0]** The route map plot for the Bombers Barcelona and Cursa dels Nassos races doesn't include the whole route. For the Jean Bouin race the route is too much zoomed out. Check again and fix the way how the zoom level is calculated.~~
 * ~~**[1.1.0]** The plot of numbers of race w.r.t. distance would be nice to include also the overall total number of races.~~
-* **[1.1.0]** The average time per km plot does not include on the horizontal axis the left side and right side time limits. 
+* ~~**[1.1.0]** The average time per km plot does not include on the horizontal axis the left side and right side time limits.~~
 * **[1.2.0]** For each race, add in the .CSV file the possibility to add a note (for mentioning some ideas relevant for that race) which will also be displayed.
 * **[1.2.0]** Add separate functions in a separate .py file for filtering the data (depending on the choices from the dropdown menus).
+* **[1.2.0]** Add dropdown filters for years.
