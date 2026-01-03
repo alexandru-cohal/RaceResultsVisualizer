@@ -30,6 +30,8 @@ else:
 
 # Plot the number of races w.r.t. distance
 st.header("Number of races w.r.t. Distance")
+st.badge("Total number of races: " + str(df.shape[0]),
+         color="blue")
 figure = plot_number_of_races(df)
 st.plotly_chart(figure)
 
