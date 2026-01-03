@@ -20,7 +20,7 @@ df = add_pace_data(df)
 # Plot the average time per km
 st.header("Average time per km")
 race_distance_option = st.selectbox(label="Race length",
-                                    options=["All", "5 & 6 km", "10 km"])
+                                    options=["All", "5 - 6 km", "10 - 12 km"])
 try:
     figure = plot_time_per_km(df, race_distance_option)
 except IndexError:
@@ -30,12 +30,16 @@ else:
 
 # Plot the number of races w.r.t. distance
 st.header("Number of races w.r.t. Distance")
+st.badge("Total number of races: " + str(df.shape[0]),
+         color="blue")
 figure = plot_number_of_races(df)
 st.plotly_chart(figure)
 
 # Plot the locations of the starting points on a map
 st.header("Locations of the Starting Points")
-figure = plot_starting_points(df)
+starting_points_location_option = st.selectbox(label="Area",
+                                               options=["General", "Barcelona"])
+figure = plot_starting_points(df, starting_points_location_option)
 st.plotly_chart(figure)
 
 # Plot the route, elevation and pace for a chosen race
@@ -44,11 +48,20 @@ race_option = st.selectbox(label="Race name",
                            options=df["name"])
 race_option_index = df.index[df["name"] == race_option][0]
 st.subheader("Route points")
-figure = plot_route(df, race_option_index)
-st.plotly_chart(figure)
+if df["validroutepoints"][race_option_index] == True:
+    figure = plot_route(df, race_option_index)
+    st.plotly_chart(figure)
+else:
+    st.error("No route points available")
 st.subheader("Elevation")
-figure = plot_elevation(df, race_option_index)
-st.plotly_chart(figure)
+if df["validroutepoints"][race_option_index] == True:
+    figure = plot_elevation(df, race_option_index)
+    st.plotly_chart(figure)
+else:
+    st.error("No route points available")
 st.subheader("Pace")
-figure = plot_pace(df, race_option_index)
+if df["validroutepoints"][race_option_index] == True:
+    figure = plot_pace(df, race_option_index)
+else:
+    figure = plot_pace_only_official(df, race_option_index)
 st.plotly_chart(figure)

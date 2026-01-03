@@ -3,21 +3,29 @@ import plotly.express as px
 import plotly.graph_objects as pg
 import numpy as np
 
+# Choosing the route plot zoom level: threshold and zoom levels values
+ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD = 0.0295
+ROUTE_PLOT_ZOOM_LEVEL_HIGH = 13
+ROUTE_PLOT_ZOOM_LEVEL_LOW = 12
 
 def plot_time_per_km(df, race_distance_option):
     """ Prepare and create the plot of date vs. time per km """
 
     match race_distance_option:
-        case "5 & 6 km":
-            df = df.loc[df["distance"].isin([5, 6])]
-        case "10 km":
-            df = df.loc[df["distance"] == 10]
+        case "5 - 6 km":
+            df = df.loc[df["distance"].between(5, 6)]
+        case "10 - 12 km":
+            df = df.loc[df["distance"].between(10, 12)]
 
     if not df.empty:
         delta_duration_sec = 20
         min_duration = int(df["duration_km_sec"].min())
         max_duration = int(df["duration_km_sec"].max())
-        duration_ticks = list(range(min_duration, max_duration, delta_duration_sec))
+        # Generate the duration ticks between the minimum and the maximum durations with a specific delta.
+        # Add one more tick before the minimum and one more tick after the maximum for creating a padding area.
+        duration_ticks = list(range(min_duration - delta_duration_sec,
+                                    max_duration + delta_duration_sec + 1,
+                                    delta_duration_sec))
 
         duration_labels = []
         time_zero = datetime(2025, 1, 1)
@@ -35,16 +43,27 @@ def plot_time_per_km(df, race_distance_option):
                                                   df["country"],
                                                   df["distance"]), axis=-1),
                              hovertemplate='<b>Date</b>: %{x} <br>'
-                                           '<b>Time per km</b>: %{customdata[0]} <br>'
-                                           '<b>Distance</b>: %{customdata[4]} km <br>'
+                                           '<b>Pace (official)</b>: %{customdata[0]} per km <br>'
+                                           '<b>Distance (official)</b>: %{customdata[4]} km <br>'
                                            '<b>Race</b>: %{customdata[1]} <br>'
                                            '<b>City</b>: %{customdata[2]} <br>'
                                            '<b>Country</b>: %{customdata[3]}')
         figure.update_layout(yaxis=dict(tickmode="array",
                                         tickvals=duration_ticks,
                                         ticktext=duration_labels))
-        figure.update_xaxes(showspikes=True, spikecolor="darkblue")
-        figure.update_yaxes(showspikes=True, spikecolor="darkblue")
+        # For the x-axis range subtract 1 week from the minimum date and add 1 week to the maximum date
+        # in order to create a left and right padding and to not have hours displayed when only one point is present.
+        figure.update_xaxes(showspikes=True,
+                            spikecolor="darkblue",
+                            range=[df["date"].min() - timedelta(weeks=4),
+                                   df["date"].max() + timedelta(weeks=4)])
+        # For the y-axis range subtract 1 second from the minimum duration and add 1 second to the maximum duration
+        # in order to display on the plot the horizontal grid lines corresponding to the previously added ticks
+        # for the padding area.
+        figure.update_yaxes(showspikes=True,
+                            spikecolor="darkblue",
+                            range=[min(duration_ticks) - 1,
+                                   max(duration_ticks) + 1])
     else:
         raise IndexError("No data available")
 
@@ -55,28 +74,37 @@ def plot_number_of_races(df):
     """ Prepare and create the plot of number of races """
 
     figure = px.histogram(x=df["distance"],
-                          text_auto=True)
-    figure.update_layout(xaxis_title_text="Distance (km)",
+                          text_auto=True,
+                          nbins=10)
+    figure.update_layout(xaxis_title_text="Distance (official) (km)",
                          yaxis_title_text="Number of races")
-    figure.update_traces(hovertemplate='<b>Distance</b>: %{x} km <br>'
+    figure.update_traces(hovertemplate='<b>Distance (official)</b>: %{x} km <br>'
                                        '<b>Number of races</b>: %{y} <br>')
     return figure
 
 
-def plot_starting_points(df):
+def plot_starting_points(df, starting_points_location_option):
     """ Prepare and create the plot of starting points """
 
     start_points_lat = df.apply(lambda row: row["route_points_lat"][0], axis=1)
     start_points_lon = df.apply(lambda row: row["route_points_lon"][0], axis=1)
-    start_points_lat_avg = start_points_lat.mean()
-    start_points_lon_avg = start_points_lon.mean()
+
+    match starting_points_location_option:
+        case "General":
+            start_points_lat_middle = (start_points_lat.min() + start_points_lat.max()) / 2
+            start_points_lon_middle = (start_points_lon.min() + start_points_lon.max()) / 2
+            map_zoom = 3.5
+        case "Barcelona":
+            start_points_lat_middle = 41.3874
+            start_points_lon_middle = 2.1686
+            map_zoom = 10.5
 
     figure = px.scatter_map(lat=start_points_lat,
                             lon=start_points_lon)
     figure.update_layout(map_style="open-street-map",
-                         map_zoom=6,
-                         map_center_lat=start_points_lat_avg,
-                         map_center_lon=start_points_lon_avg,
+                         map_zoom=map_zoom,
+                         map_center={"lat": start_points_lat_middle,
+                                     "lon": start_points_lon_middle},
                          height=500)
     figure.update_traces(marker=dict(size=10),
                          customdata=np.stack((df["duration_km_timedelta_str"],
@@ -86,8 +114,8 @@ def plot_starting_points(df):
                                               df["distance"],
                                               df["date_str"]), axis=-1),
                          hovertemplate='<b>Date</b>: %{customdata[5]} <br>'
-                                       '<b>Time per km</b>: %{customdata[0]} <br>'
-                                       '<b>Distance</b>: %{customdata[4]} km <br>'
+                                       '<b>Pace (official)</b>: %{customdata[0]} per km <br>'
+                                       '<b>Distance (official)</b>: %{customdata[4]} km <br>'
                                        '<b>Race</b>: %{customdata[1]} <br>'
                                        '<b>City</b>: %{customdata[2]} <br>'
                                        '<b>Country</b>: %{customdata[3]}')
@@ -104,15 +132,23 @@ def plot_route(df, race_option_index):
     dist_accum_percentage = df["route_points_dist_accum_percentage"][race_option_index]
     duration_accum = df["route_points_duration_accum_timedelta_str"][race_option_index]
 
-    avg_lat = sum(lat) / len(lat)
-    avg_lon = sum(lon) / len(lon)
+    lat_center = (lat.min() + lat.max()) / 2
+    lon_center = (lon.min() + lon.max()) / 2
+
+    # Choose the map zoom level using a threshold for the maximum range in latitude or longitude
+    lat_range = lat.max() - lat.min()
+    lon_range = lon.max() - lon.min()
+    if max(lat_range, lon_range) <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD:
+        zoom_level = ROUTE_PLOT_ZOOM_LEVEL_HIGH
+    else:
+        zoom_level = ROUTE_PLOT_ZOOM_LEVEL_LOW
 
     figure = px.line_map(lat=lat,
                          lon=lon)
     figure.update_layout(map_style="open-street-map",
-                         map_zoom=13,
-                         map_center_lat=avg_lat,
-                         map_center_lon=avg_lon,
+                         map_zoom=zoom_level,
+                         map_center_lat=lat_center,
+                         map_center_lon=lon_center,
                          height=500)
     figure.update_traces(customdata=np.stack((lat, lon, elev, dist_accum, dist_accum_percentage, duration_accum), axis=-1),
                          hovertemplate='<b>Latitude</b>: %{customdata[0]} °N <br>'
@@ -210,5 +246,37 @@ def plot_pace(df, race_option_index):
     figure.add_hline(y=df["pace_average_official_sec"][race_option_index], line_dash="dot",
                   annotation_text=f"<b>Average official pace:</b> {df["pace_average_official_timedelta_str"][race_option_index]}",
                   annotation_position="bottom right")
+
+    return figure
+
+
+def plot_pace_only_official(df, race_option_index):
+    figure = px.line()
+
+    # Add one more tick before the official pace and one more tick for creating a padding area.
+    delta_pace_sec = 20
+    pace_ticks = [int(df["pace_average_official_sec"][race_option_index]) - delta_pace_sec,
+                  int(df["pace_average_official_sec"][race_option_index]),
+                  int(df["pace_average_official_sec"][race_option_index]) + delta_pace_sec]
+    pace_labels = []
+    time_zero = datetime(2025, 1, 1)
+    for tick in pace_ticks:
+        pace_labels.append((time_zero + timedelta(seconds=tick)).strftime("%H:%M:%S"))
+
+    # For the y-axis range subtract 1 second from the minimum pace and add 1 second to the maximum pace
+    # in order to display on the plot the horizontal grid lines corresponding to the previously added ticks
+    # for the padding area.
+    figure.update_yaxes(range=[min(pace_ticks) - 1,
+                               max(pace_ticks) + 1])
+    figure.update_layout(yaxis=dict(tickmode="array",
+                                    tickvals=pace_ticks,
+                                    ticktext=pace_labels))
+    # For the x-axis range use 0 and the race distance. To the right limit add 1 kilometer in order to display
+    # on the plot the point corresponding to the race distance.
+    figure.update_xaxes(range=[0,
+                               df["distance"][race_option_index] + 1])
+    figure.add_hline(y=df["pace_average_official_sec"][race_option_index], line_dash="dot",
+                     annotation_text=f"<b>Average official pace:</b> {df["pace_average_official_timedelta_str"][race_option_index]}",
+                     annotation_position="bottom right")
 
     return figure

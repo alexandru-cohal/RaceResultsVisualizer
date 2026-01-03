@@ -19,7 +19,7 @@
 ## Requirements
 * The WebApp shall use as input a .CSV file which contains the results of all the races to be included in the app.
   * The separator of the .CSV file shall be the comma symbol.
-  * The column names shall be: "name", "distance", "date", "city", "country", "duration", "pace", "gpxfilename".
+  * The column names shall be: "name", "distance", "date", "city", "country", "duration", "pace", "gpxfilename", "validroutepoints".
     * The column "name" shall contain the name of the race.
       * The race name shall be introduced as a string delimited by double quotes.
       * Note: This way, the name can contain comma symbols without affecting the structure of the .csv file.
@@ -38,14 +38,18 @@
       * The race pace shall be introduced in the format ```HH:MM:SS```, where H represents a digit of the hour value, M represents a digit of the minute value, S represents a digit of the second value.
     * The column "gpxfilename" shall contain the name of the file containing the logged data during the race (i.e. location, elevation, timestamp).
       * The name of the file shall be introduced as a string delimited by double quotes and shall include the ".gpx" extension.
+    * The column "validroutepoints" shall contain the information whether the registered route points from the GPX file are valid and can be used for processing and plotting or not.
+      * The value shall be a boolean value as a string: "true" or "false".
 * The plots displayed by the WebApp shall show the following information:
   * After selecting a category of races from a dropdown list (i.e. 5 & 6 km, 10 km, all races):
     * Plot_1 shall show the evolution of the pace for all the races from the selected category.
-  * Plot_2 shall show the number of races for each race distance.
-  * Plot_3 shall show the locations of all the races on a map.
-    * The starting point shall be used as the location of a race. 
+  * Plot_2 shall show the number of races for each race distance and the total number of races.
+  * After selecting an area from a dropdown list (i.e. general or Barcelona):
+    * Plot_3 shall show the locations of all the races on a map.
+      * The starting point shall be used as the location of a race. 
   * After selecting one of the races from a dropdown list:
     * Plot_4 shall show the route of the race on a map.
+      * The starting and ending points shall be clearly marked.
     * Plot_5 shall show the elevation profile.
     * Plot_6 shall show the pace for each kilometer of the race and the calculated and official average pace values for the whole race.
 * The WebApp shall use as input a configuration file ```config.json```.
@@ -61,4 +65,8 @@
 * Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
   * Solution: Use _plotly.graph_object_ and the attributes _hoversubplots_ and _hovermode_ (see https://plotly.com/python/hover-text-and-formatting/#hover-on-subplots).
 * Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
-  * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/). 
+  * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/).
+* The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
+* For each race, add in the .CSV file the possibility to add a note (for mentioning some ideas relevant for that race) which will also be displayed.
+* Add separate functions in a separate .py file for filtering the data (depending on the choices from the dropdown menus).
+* Add dropdown list for years.
