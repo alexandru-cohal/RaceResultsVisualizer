@@ -73,8 +73,8 @@
 * ~~For the Barcelona metro race, there is a .GPX file available but almost all the GPS points are the same (because the race was underground). So from this file only the start and stop points are useful (more or less). The route map and the elevation plot don't have any valuable information, so there should be a switch in the race_results.csv file to disable these plots or to signal that the .GPX file is incomplete in such cases. In this case, use the official values for the duration and pace only. Possibly add a note specifying this.~~
 * ~~For the Barcelona metro race, the pace plot crashes. Check why and fix it.~~
 * ~~Modify the labels from "Time per km" to "Pace (official): xx:yy:zz per km)" and from "Distance" to "Distance (official)".~~
-* **[1.1.0]** The route map plot for the Bombers Barcelona and Cursa dels Nassos races doesn't include the whole route. For the Jean Bouin race the route is too much zoomed out. Check again and fix the way how the zoom level is calculated.
-* **[1.1.0]** The plot of numbers of race w.r.t. distance would be nice to include also the overall total number of races.
+* ~~**[1.1.0]** The route map plot for the Bombers Barcelona and Cursa dels Nassos races doesn't include the whole route. For the Jean Bouin race the route is too much zoomed out. Check again and fix the way how the zoom level is calculated.~~
+* ~~**[1.1.0]** The plot of numbers of race w.r.t. distance would be nice to include also the overall total number of races.~~
 * **[1.1.0]** The average time per km plot does not include on the horizontal axis the left side and right side time limits. 
 * **[1.2.0]** For each race, add in the .CSV file the possibility to add a note (for mentioning some ideas relevant for that race) which will also be displayed.
 * **[1.2.0]** Add separate functions in a separate .py file for filtering the data (depending on the choices from the dropdown menus).
