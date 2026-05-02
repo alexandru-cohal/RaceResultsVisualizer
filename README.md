@@ -69,4 +69,9 @@
 * The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
 * For each race, add in the .CSV file the possibility to add a note (for mentioning some ideas relevant for that race) which will also be displayed.
 * Add separate functions in a separate .py file for filtering the data (depending on the choices from the dropdown menus).
-* Add dropdown list for years.
+* Add dropdown list for years (i.e. 2025, 2026, General).
+* When selecting the second race from Girona, it shows the plot for the route, elevation and pace of the first race. The reason is that both races have the same name in the .CSV file. There should be a different part in the name, like it is for the Badalona race.
+* Check if special characters can be used in the names of the races in the .CSV file and then to be correctly shown in the app.
+* Check if the race_data folder should have subfolders for years.
+* Check the possibility of using a database instead of the .CSV file for simplicity and for adding race data without creating a manual commit.
+* Add race length category of 20-22 km for near future races.
