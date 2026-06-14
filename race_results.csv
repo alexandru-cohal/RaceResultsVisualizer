@@ -18,3 +18,6 @@ name,distance,date,city,country,duration,pace,gpxfilename,validroutepoints
 "XIV Cursa Benefica Malalties Minoritaries",10,2026-02-22,"Badalona","Spain",0:50:37,0:05:04,Cursa_Malalties_Minoritaries_Badalona_10_km.gpx,true
 "La Cursa del Pont - Deltebre",10,2026-03-22,"Deltebre","Spain",0:47:46,0:04:47,Cursa_del_Pont_Deltebre_10_km.gpx,true
 "Cursa Montilivi Girona",10,2026-04-26,"Girona","Spain",0:55:39,0:05:34,Cursa_Montilivi_Girona_10_Km.gpx,true
+"Checkpoint Race Barcelona",26,2026-05-17,"Barcelona","Spain",2:58:00,0:06:50,Checkpoint_Race_Barcelona_Sant_Andreu_50_Checkpoints.gpx,true
+"20km de Bruxelles",20,2026-05-31,"Brussels","Belgium",1:57:34,0:05:53,"Race_20_km_de_Bruxelles.gpx",true
+"La Cursa Dels 150 Anys Estrella Damm",5,2026-06-14,"El Prat de Llobregat","Spain",0:23:37,0:04:44,La_Cursa_Dels_150_Anys_Estrella_Damm_5_km.gpx,true
