@@ -21,3 +21,4 @@ name,distance,date,city,country,duration,pace,gpxfilename,validroutepoints
 "Checkpoint Race Barcelona",26,2026-05-17,"Barcelona","Spain",2:58:00,0:06:50,Checkpoint_Race_Barcelona_Sant_Andreu_50_Checkpoints.gpx,true
 "20km de Bruxelles",20,2026-05-31,"Brussels","Belgium",1:57:34,0:05:53,"Race_20_km_de_Bruxelles.gpx",true
 "La Cursa Dels 150 Anys Estrella Damm",5,2026-06-14,"El Prat de Llobregat","Spain",0:23:37,0:04:44,La_Cursa_Dels_150_Anys_Estrella_Damm_5_km.gpx,true
+Trondheim Halvmaraton,21.1,2026-09-06,Trondheim,Norway,1:57:41,0:05:34,Trondheim_Halvmaraton.gpx,true
