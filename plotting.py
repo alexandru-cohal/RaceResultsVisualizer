@@ -16,6 +16,8 @@ def plot_time_per_km(df, race_distance_option):
             df = df.loc[df["distance"].between(5, 6)]
         case "10 - 12 km":
             df = df.loc[df["distance"].between(10, 12)]
+        case "20 - 26 km":
+            df = df.loc[df["distance"].between(20, 26)]
 
     if not df.empty:
         delta_duration_sec = 20
