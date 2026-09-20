@@ -3,12 +3,18 @@ import plotly.express as px
 import plotly.graph_objects as pg
 import numpy as np
 
-# Choosing the route plot zoom level: thresholds and zoom levels values
+# Route plot zoom levels and thresholds for choosing the zoom levels
 ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH    = 0.0295
 ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW     = 0.07
 ROUTE_PLOT_ZOOM_LEVEL_HIGH  = 13
 ROUTE_PLOT_ZOOM_LEVEL_MID   = 12
 ROUTE_PLOT_ZOOM_LEVEL_LOW   = 11
+
+# Starting points plot zoom levels and center point
+STARTING_POINTS_PLOT_ZOOM_LEVEL_GENERAL     = 2.3
+STARTING_POINTS_PLOT_ZOOM_LEVEL_BARCELONA   = 10
+STARTING_POINTS_PLOT_CENTER_POINT_LAT   = 41.3874
+STARTING_POINTS_PLOT_CENTER_POINT_LON   = 2.1686
 
 def plot_time_per_km(df, race_distance_option):
     """ Prepare and create the plot of date vs. time per km """
@@ -97,11 +103,11 @@ def plot_starting_points(df, starting_points_location_option):
         case "General":
             start_points_lat_middle = (start_points_lat.min() + start_points_lat.max()) / 2
             start_points_lon_middle = (start_points_lon.min() + start_points_lon.max()) / 2
-            map_zoom = 3.5
+            map_zoom = STARTING_POINTS_PLOT_ZOOM_LEVEL_GENERAL
         case "Barcelona":
-            start_points_lat_middle = 41.3874
-            start_points_lon_middle = 2.1686
-            map_zoom = 10.5
+            start_points_lat_middle = STARTING_POINTS_PLOT_CENTER_POINT_LAT
+            start_points_lon_middle = STARTING_POINTS_PLOT_CENTER_POINT_LON
+            map_zoom = STARTING_POINTS_PLOT_ZOOM_LEVEL_BARCELONA
 
     figure = px.scatter_map(lat=start_points_lat,
                             lon=start_points_lon)
