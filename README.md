@@ -41,7 +41,7 @@
     * The column "validroutepoints" shall contain the information whether the registered route points from the GPX file are valid and can be used for processing and plotting or not.
       * The value shall be a boolean value as a string: "true" or "false".
 * The plots displayed by the WebApp shall show the following information:
-  * After selecting a category of races from a dropdown list (i.e. 5 & 6 km, 10 km, all races):
+  * After selecting a category of races from a dropdown list (i.e. 5 - 6 km, 10 - 12 km, 20 - 26 km, all races):
     * Plot_1 shall show the evolution of the pace for all the races from the selected category.
   * Plot_2 shall show the number of races for each race distance and the total number of races.
   * After selecting an area from a dropdown list (i.e. general or Barcelona):
@@ -49,9 +49,12 @@
       * The starting point shall be used as the location of a race. 
   * After selecting one of the races from a dropdown list:
     * Plot_4 shall show the route of the race on a map.
-      * The starting and ending points shall be clearly marked.
+      * The starting point shall be marked with a green dot.
+      * The ending point shall be marked with a red dot.
     * Plot_5 shall show the elevation profile.
-    * Plot_6 shall show the pace for each kilometer of the race and the calculated and official average pace values for the whole race.
+    * Plot_6 shall show the pace for each kilometer of the race.
+      * The calculated average pace value shall be clearly marked with a horizontal line and the explicit value.
+      * The official average pace value shall be clearly marked with a horizontal line and the explicit value.
 * The WebApp shall use as input a configuration file ```config.json```.
   * The configuration file shall contain the key ```csv_race_results_filepath```.
     * The value of the key ```csv_race_results_filepath``` shall be the path of the .CSV file containing the race results.
