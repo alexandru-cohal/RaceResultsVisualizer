@@ -41,7 +41,7 @@
     * The column "validroutepoints" shall contain the information whether the registered route points from the GPX file are valid and can be used for processing and plotting or not.
       * The value shall be a boolean value as a string: "true" or "false".
 * The plots displayed by the WebApp shall show the following information:
-  * After selecting a category of races from a dropdown list (i.e. 5 & 6 km, 10 km, all races):
+  * After selecting a category of races from a dropdown list (i.e. 5 - 6 km, 10 - 12 km, 20 - 26 km, all races):
     * Plot_1 shall show the evolution of the pace for all the races from the selected category.
   * Plot_2 shall show the number of races for each race distance and the total number of races.
   * After selecting an area from a dropdown list (i.e. general or Barcelona):
@@ -49,9 +49,12 @@
       * The starting point shall be used as the location of a race. 
   * After selecting one of the races from a dropdown list:
     * Plot_4 shall show the route of the race on a map.
-      * The starting and ending points shall be clearly marked.
+      * The starting point shall be marked with a green dot.
+      * The ending point shall be marked with a red dot.
     * Plot_5 shall show the elevation profile.
-    * Plot_6 shall show the pace for each kilometer of the race and the calculated and official average pace values for the whole race.
+    * Plot_6 shall show the pace for each kilometer of the race.
+      * The calculated average pace value shall be clearly marked with a horizontal line and the explicit value.
+      * The official average pace value shall be clearly marked with a horizontal line and the explicit value.
 * The WebApp shall use as input a configuration file ```config.json```.
   * The configuration file shall contain the key ```csv_race_results_filepath```.
     * The value of the key ```csv_race_results_filepath``` shall be the path of the .CSV file containing the race results.
@@ -59,14 +62,22 @@
     * The value of the key ```gpx_race_route_filepath``` shall be the path of the folder where all the .GPX files containing the logged race information are stored.
 
 ## To Do in the following releases:
-* Improve time per km plot (set different marker colors for different race lengths, add legend of colors)
-  * Solution: Plot firstly the line and then overlap for each type of distance only the markers by using the _add_trace_ function (like it was done in the _plot_route_ function for the start and end points).
-* Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used. Improve if needed.
-* Add combined plot route & elevation (with correlation between hovered point -> hover on subplots).
-  * Solution: Use _plotly.graph_object_ and the attributes _hoversubplots_ and _hovermode_ (see https://plotly.com/python/hover-text-and-formatting/#hover-on-subplots).
-* Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection.
-  * Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/).
-* The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available. 
-* For each race, add in the .CSV file the possibility to add a note (for mentioning some ideas relevant for that race) which will also be displayed.
-* Add separate functions in a separate .py file for filtering the data (depending on the choices from the dropdown menus).
-* Add dropdown list for years.
+| Priority | Topic                                                                                                                                                                                                                                                                                                                |
+|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1        | The Leiden race doesn't have official values for duration and pace. Now in the .CSV file were added my measured values. Add the possibility to handle the situation when these values are not available.                                                                                                             |
+| 1        | The Checkpoint and the 20km de Bruxelles races doesn't have official value for pace. Now in the .CSV file was added my calculated value. Add the possibility to handle the situation when this value is not available.                                                                                               |
+| 1        | Add dropdown list for years (i.e. 2025, 2026, General).                                                                                                                                                                                                                                                              |
+| 2        | Check if special characters can be used in the names of the races in the .CSV file and then to be correctly shown in the app.                                                                                                                                                                                        |
+| 2        | Check if the race_data folder should have subfolders for years.                                                                                                                                                                                                                                                      |
+| 2        | Add section for future races. The CSV should have a column for marking if a race already happened or it is planned.                                                                                                                                                                                                  |
+| 2        | Improve time per km plot (set different marker colors for different race lengths, add legend of colors). Solution: Plot firstly the line and then overlap for each type of distance only the markers by using the _add_trace_ function (like it was done in the _plot_route_ function for the start and end points). |
+| 2        | Add combined plot route & elevation (with correlation between hovered point -> hover on subplots). Solution: Use _plotly.graph_object_ and the attributes _hoversubplots_ and _hovermode_ (see https://plotly.com/python/hover-text-and-formatting/#hover-on-subplots).                                              |
+| 2        | Add possibility to select race from the map of starting points and have the same effect as the dropdown list selection. Solution: Use plotly.graph_objects and FigureWidget (see https://plotly.com/python/click-events/).                                                                                           |
+| 3        | Add separate functions in a separate .py file for filtering the data (depending on the choices from the dropdown menus).                                                                                                                                                                                             |
+| 3        | Check the whole code if the best ways to access the rows and cells of the dataframe (i.e. loc, at) are used. Improve if needed.                                                                                                                                                                                      |
+| 4        | For each race, add in the .CSV file the possibility to add a note (for mentioning some ideas relevant for that race, for example the number of checkpoints for the Checkpoints race) which will also be displayed.                                                                                                   |
+| 4        | For each race, scan the dorsal, add them to the repository, add a new column to the .CSV file and display this image.                                                                                                                                                                                                |
+| 4        | For each race, add in the .CSV file the possibility to add a song relevant to it. Use Spotify API for playing it.                                                                                                                                                                                                    |
+| 4        | Check the possibility of using a database instead of the .CSV file for simplicity and for adding race data without creating a manual commit.                                                                                                                                                                         |
+| 4        | Add a calendar of the past and future races (useful to see the past distribution over time and to not register for future races too close to each other).                                                                                                                                                            |
+| 4        | Calculate and display the predictions of times for the main race categories (e.g. 5 km, 10 km, half marathon) using different ML models.                                                                                                                                                                             |

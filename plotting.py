@@ -3,10 +3,18 @@ import plotly.express as px
 import plotly.graph_objects as pg
 import numpy as np
 
-# Choosing the route plot zoom level: threshold and zoom levels values
-ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD = 0.0295
-ROUTE_PLOT_ZOOM_LEVEL_HIGH = 13
-ROUTE_PLOT_ZOOM_LEVEL_LOW = 12
+# Route plot zoom levels and thresholds for choosing the zoom levels
+ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH    = 0.0295
+ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW     = 0.07
+ROUTE_PLOT_ZOOM_LEVEL_HIGH  = 13
+ROUTE_PLOT_ZOOM_LEVEL_MID   = 12
+ROUTE_PLOT_ZOOM_LEVEL_LOW   = 11
+
+# Starting points plot zoom levels and center point
+STARTING_POINTS_PLOT_ZOOM_LEVEL_GENERAL     = 2.3
+STARTING_POINTS_PLOT_ZOOM_LEVEL_BARCELONA   = 10
+STARTING_POINTS_PLOT_CENTER_POINT_LAT   = 41.3874
+STARTING_POINTS_PLOT_CENTER_POINT_LON   = 2.1686
 
 def plot_time_per_km(df, race_distance_option):
     """ Prepare and create the plot of date vs. time per km """
@@ -16,6 +24,8 @@ def plot_time_per_km(df, race_distance_option):
             df = df.loc[df["distance"].between(5, 6)]
         case "10 - 12 km":
             df = df.loc[df["distance"].between(10, 12)]
+        case "20 - 26 km":
+            df = df.loc[df["distance"].between(20, 26)]
 
     if not df.empty:
         delta_duration_sec = 20
@@ -73,11 +83,17 @@ def plot_time_per_km(df, race_distance_option):
 def plot_number_of_races(df):
     """ Prepare and create the plot of number of races """
 
+    distance_ticks = list(range(5, 27))
+    distance_labels = list(range(5, 27))
+
     figure = px.histogram(x=df["distance"],
                           text_auto=True,
-                          nbins=10)
+                          nbins=30)
     figure.update_layout(xaxis_title_text="Distance (official) (km)",
                          yaxis_title_text="Number of races")
+    figure.update_layout(xaxis=dict(tickmode="array",
+                                    tickvals=distance_ticks,
+                                    ticktext=distance_labels))
     figure.update_traces(hovertemplate='<b>Distance (official)</b>: %{x} km <br>'
                                        '<b>Number of races</b>: %{y} <br>')
     return figure
@@ -93,11 +109,11 @@ def plot_starting_points(df, starting_points_location_option):
         case "General":
             start_points_lat_middle = (start_points_lat.min() + start_points_lat.max()) / 2
             start_points_lon_middle = (start_points_lon.min() + start_points_lon.max()) / 2
-            map_zoom = 3.5
+            map_zoom = STARTING_POINTS_PLOT_ZOOM_LEVEL_GENERAL
         case "Barcelona":
-            start_points_lat_middle = 41.3874
-            start_points_lon_middle = 2.1686
-            map_zoom = 10.5
+            start_points_lat_middle = STARTING_POINTS_PLOT_CENTER_POINT_LAT
+            start_points_lon_middle = STARTING_POINTS_PLOT_CENTER_POINT_LON
+            map_zoom = STARTING_POINTS_PLOT_ZOOM_LEVEL_BARCELONA
 
     figure = px.scatter_map(lat=start_points_lat,
                             lon=start_points_lon)
@@ -135,11 +151,15 @@ def plot_route(df, race_option_index):
     lat_center = (lat.min() + lat.max()) / 2
     lon_center = (lon.min() + lon.max()) / 2
 
-    # Choose the map zoom level using a threshold for the maximum range in latitude or longitude
+    # Choose the map zoom level using thresholds for the maximum range in latitude or longitude
     lat_range = lat.max() - lat.min()
     lon_range = lon.max() - lon.min()
-    if max(lat_range, lon_range) <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD:
+    max_lat_lon_range = max(lat_range, lon_range)
+
+    if max_lat_lon_range <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH:
         zoom_level = ROUTE_PLOT_ZOOM_LEVEL_HIGH
+    elif ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH < max_lat_lon_range <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW:
+        zoom_level = ROUTE_PLOT_ZOOM_LEVEL_MID
     else:
         zoom_level = ROUTE_PLOT_ZOOM_LEVEL_LOW
 
