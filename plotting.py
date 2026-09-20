@@ -83,11 +83,17 @@ def plot_time_per_km(df, race_distance_option):
 def plot_number_of_races(df):
     """ Prepare and create the plot of number of races """
 
+    distance_ticks = list(range(5, 27))
+    distance_labels = list(range(5, 27))
+
     figure = px.histogram(x=df["distance"],
                           text_auto=True,
-                          nbins=10)
+                          nbins=30)
     figure.update_layout(xaxis_title_text="Distance (official) (km)",
                          yaxis_title_text="Number of races")
+    figure.update_layout(xaxis=dict(tickmode="array",
+                                    tickvals=distance_ticks,
+                                    ticktext=distance_labels))
     figure.update_traces(hovertemplate='<b>Distance (official)</b>: %{x} km <br>'
                                        '<b>Number of races</b>: %{y} <br>')
     return figure
