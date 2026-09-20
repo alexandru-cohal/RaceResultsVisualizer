@@ -3,10 +3,12 @@ import plotly.express as px
 import plotly.graph_objects as pg
 import numpy as np
 
-# Choosing the route plot zoom level: threshold and zoom levels values
-ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD = 0.0295
-ROUTE_PLOT_ZOOM_LEVEL_HIGH = 13
-ROUTE_PLOT_ZOOM_LEVEL_LOW = 12
+# Choosing the route plot zoom level: thresholds and zoom levels values
+ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH    = 0.0295
+ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW     = 0.07
+ROUTE_PLOT_ZOOM_LEVEL_HIGH  = 13
+ROUTE_PLOT_ZOOM_LEVEL_MID   = 12
+ROUTE_PLOT_ZOOM_LEVEL_LOW   = 11
 
 def plot_time_per_km(df, race_distance_option):
     """ Prepare and create the plot of date vs. time per km """
@@ -137,11 +139,15 @@ def plot_route(df, race_option_index):
     lat_center = (lat.min() + lat.max()) / 2
     lon_center = (lon.min() + lon.max()) / 2
 
-    # Choose the map zoom level using a threshold for the maximum range in latitude or longitude
+    # Choose the map zoom level using thresholds for the maximum range in latitude or longitude
     lat_range = lat.max() - lat.min()
     lon_range = lon.max() - lon.min()
-    if max(lat_range, lon_range) <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD:
+    max_lat_lon_range = max(lat_range, lon_range)
+
+    if max_lat_lon_range <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH:
         zoom_level = ROUTE_PLOT_ZOOM_LEVEL_HIGH
+    elif ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH < max_lat_lon_range <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW:
+        zoom_level = ROUTE_PLOT_ZOOM_LEVEL_MID
     else:
         zoom_level = ROUTE_PLOT_ZOOM_LEVEL_LOW
 
