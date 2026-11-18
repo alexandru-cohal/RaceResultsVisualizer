@@ -23,3 +23,6 @@ name,distance,date,city,country,duration,pace,gpxfilename,validroutepoints
 "La Cursa Dels 150 Anys Estrella Damm",5,2026-06-14,"El Prat de Llobregat","Spain",0:23:37,0:04:44,La_Cursa_Dels_150_Anys_Estrella_Damm_5_km.gpx,true
 "Trondheim Halvmaraton",21.1,2026-09-06,"Trondheim","Norway",1:57:41,0:05:34,Trondheim_Halvmaraton.gpx,true
 "Cursa de la Llagosta",10,2026-09-27,"La Llagosta","Spain",0:48:52,0:04:54,Cursa_de_La_Llagosta_10_km.gpx,true
+"La Cursa de RAC1 Platja d'Aro",5,2026-10-18,"Platja d'Aro","Spain",0:22:47,0:04:34,La_Cursa_de_RAC1_Platja_d_Aro_5_km.gpx,true
+"Montjuïc - Tibidabo",10,2026-11-01,"Barcelona","Spain",0:53:23,0:05:21,Cursa_Montjuïc_Tibidabo_10_km.gpx,true
+"Gran Carrera del Mediterraneo",21.1,2026-11-08,"Alicante","Spain",1:58:24,0:05:38,Gran_Carrera_del_Mediterráneo_21km_Alicante_Santa_Pola.gpx,true
