@@ -1,8 +1,9 @@
 from config import config
 import pandas as pd
 import streamlit as st
-from data_processing import (process_date_data, process_duration_data, add_route_data,
-                             add_dist_and_time_accumulative_route_data, add_pace_data)
+from data_processing import (process_date_data, process_duration_data,
+                             filter_by_year,
+                             add_route_data, add_dist_and_time_accumulative_route_data, add_pace_data)
 from plotting import *
 
 st.title("Race Results Visualizer")
@@ -16,6 +17,13 @@ df = process_duration_data(df)
 df = add_route_data(df)
 df = add_dist_and_time_accumulative_route_data(df)
 df = add_pace_data(df)
+
+# Filter by year
+st.header("Year")
+year_option = st.selectbox(label="Year",
+                           options=["All", "2025", "2026"])
+if year_option != "All":
+    df = filter_by_year(df, year_option)
 
 # Plot the average time per km
 st.header("Average time per km")
