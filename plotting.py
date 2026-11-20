@@ -6,9 +6,11 @@ import numpy as np
 # Route plot zoom levels and thresholds for choosing the zoom levels
 ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH    = 0.0295
 ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW     = 0.07
-ROUTE_PLOT_ZOOM_LEVEL_HIGH  = 13
-ROUTE_PLOT_ZOOM_LEVEL_MID   = 12
-ROUTE_PLOT_ZOOM_LEVEL_LOW   = 11
+ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW_LOW = 0.1
+ROUTE_PLOT_ZOOM_LEVEL_HIGH      = 13
+ROUTE_PLOT_ZOOM_LEVEL_MID       = 12
+ROUTE_PLOT_ZOOM_LEVEL_LOW       = 11
+ROUTE_PLOT_ZOOM_LEVEL_LOW_LOW   = 10
 
 # Starting points plot zoom levels and center point
 STARTING_POINTS_PLOT_ZOOM_LEVEL_GENERAL     = 2.3
@@ -160,8 +162,10 @@ def plot_route(df, race_option_index):
         zoom_level = ROUTE_PLOT_ZOOM_LEVEL_HIGH
     elif ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_HIGH < max_lat_lon_range <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW:
         zoom_level = ROUTE_PLOT_ZOOM_LEVEL_MID
-    else:
+    elif ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW < max_lat_lon_range <= ROUTE_PLOT_ZOOM_LEVEL_THRESHOLD_LOW_LOW:
         zoom_level = ROUTE_PLOT_ZOOM_LEVEL_LOW
+    else:
+        zoom_level = ROUTE_PLOT_ZOOM_LEVEL_LOW_LOW
 
     figure = px.line_map(lat=lat,
                          lon=lon)
