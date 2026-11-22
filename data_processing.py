@@ -51,6 +51,11 @@ def process_duration_data(df):
 
     return df
 
+def filter_by_year(df, year_option):
+    """ Selects only the rows with the date having the year the same with the chosen year"""
+
+    return df.loc[(df["date"] >= (year_option + "-01-01")) &
+                  (df["date"] <= (year_option + "-12-31"))]
 
 def parse_gpx_file(filepath):
     """ Parse a .GPX file and return 4 lists with latitude, longitude, elevation and timestamp values, respectively """
